@@ -23,6 +23,7 @@ namespace GameJamDemo
         }
 
         private float m_timer = 0;
+        private float m_bombTiemr = 0;
         private bool m_start = false;
 
         public MapManager mapManager = new MapManager();
@@ -46,6 +47,15 @@ namespace GameJamDemo
             playerOther.Move();
         }
 
+        /// <summary>
+        /// 释放炸弹
+        /// </summary>
+        public void SetBomb()
+        {
+            playerSelf.SetBomb();
+            playerOther.SetBomb();
+        }
+
         private void Update()
         {
             if (!m_start)
@@ -55,10 +65,16 @@ namespace GameJamDemo
             bombManager.OnUpdate();
 
             m_timer += Time.deltaTime;
+            m_bombTiemr += Time.deltaTime;
             if (m_timer >= 1)
             {
                 Step();
                 m_timer = 0;
+            }
+            if (m_bombTiemr >= 3)
+            {
+                SetBomb();
+                m_bombTiemr = 0;
             }
         }
 

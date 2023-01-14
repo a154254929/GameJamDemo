@@ -43,7 +43,9 @@ namespace GameJamDemo
         /// </summary>
         public void Release()
         {
+            m_timer = 0;
             GameObject.Destroy(m_obj);
+            m_obj = null;
         }
     }
 
@@ -53,6 +55,7 @@ namespace GameJamDemo
     public class BombManager
     {
         private List<Bomb> m_bombList = new List<Bomb>();
+        private GameObject m_bombObj;
 
         public void OnUpdate()
         {
@@ -64,6 +67,11 @@ namespace GameJamDemo
                     m_bombList.RemoveAt(i);
                 }
             }
+        }
+
+        public void AddBomb(Vector3 pos)
+        {
+            m_bombList.Add(new Bomb(pos, m_bombObj));
         }
     }
 }

@@ -18,6 +18,8 @@ namespace GameJamDemo
     public class BasePlayer
     {
         private MapManager mapManager = GameManager.Instance.mapManager;
+        private BombManager bombManager = GameManager.Instance.bombManager;
+
         private MoveDirection m_direction;
         private Vector3 m_position;
         private GameObject m_obj;
@@ -54,6 +56,14 @@ namespace GameJamDemo
         public void UpdateHeight()
         {
 
+        }
+
+        /// <summary>
+        /// 释放一个炸弹
+        /// </summary>
+        public void SetBomb()
+        {
+            bombManager.AddBomb(m_position);
         }
     }
 }

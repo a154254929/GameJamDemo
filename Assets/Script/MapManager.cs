@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatorBlocks : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
     public int Columm = 6;
     public int Row = 6;
     public int Layer = 10;
     public GameObject BlockPrefab = null;
-    private List<List<List<GameObject>>> blocks;
+    private List<List<List<Blocks>>> blocks;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,21 +30,21 @@ public class CreatorBlocks : MonoBehaviour
 
     public void CreateBlocks()
     {
-        blocks = new List<List<List<GameObject>>>();
+        blocks = new List<List<List<Blocks>>>();
         int count = 0;
         if (BlockPrefab != null)
         {
             for (int i = 0; i < Layer; ++i)
             {
-                List<List<GameObject>> currentLayer = new List<List<GameObject>>();
+                List<List<Blocks>> currentLayer = new List<List<Blocks>>();
                 for (int j = 0; j < Row; ++j)
                 {
-                    List<GameObject> currentRow = new List<GameObject>();
+                    List<Blocks> currentRow = new List<Blocks>();
                     for (int k = 0; k < Columm; ++k)
                     {
                         GameObject currentGO = Instantiate(BlockPrefab, new Vector3((float)k, (float)(i + 0.5), (float)j), Quaternion.identity, this.transform);
                         currentGO.name = string.Format("Block{0}", count);
-                        currentRow.Add(currentGO);
+                        currentRow.Add(currentGO.AddComponent<Blocks>());
                         count++;
                     }
                     currentLayer.Add(currentRow);

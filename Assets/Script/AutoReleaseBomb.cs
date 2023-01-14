@@ -10,6 +10,8 @@ public class AutoReleaseBomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        string assetPathName = "Prefab/BombPrefab";
+        BombPrefab = Resources.Load<GameObject>(assetPathName);
         unGenerateBombTime = 0.0f;
     }
 
@@ -22,7 +24,7 @@ public class AutoReleaseBomb : MonoBehaviour
             int generateBombNum = (int)(unGenerateBombTime / GenerateBombTime);
             for (int i = 0;i < generateBombNum; ++i)
             {
-                GameObject gameObject = Instantiate(BombPrefab, new Vector3(1, 1, 1), Quaternion.identity);
+                GameObject gameObject = Instantiate(BombPrefab, this.gameObject.transform.position, Quaternion.identity);
                 gameObject.AddComponent<Bomb>();
                 unGenerateBombTime -= GenerateBombTime;
             }

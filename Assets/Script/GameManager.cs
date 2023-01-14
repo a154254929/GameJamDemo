@@ -7,36 +7,38 @@ public class GameManager : MonoBehaviour
     public float MoveTimeInterval = 1.0f;
     public GameObject PlayerPrefab = null;
     public GameObject BlockPrefab = null;
+    public float Height = 0.1f;
 
     private int playerNum = 1;
     private float lastMoveTime = 0.0f;
-    private List<Player> players = new List<Player>();
-    private CreatorBlocks creatorBlocksComp;
+    private List<IPlayer> players = new List<IPlayer>();
+    private MapManager mapManager;
     // Start is called before the first frame update
     void Start()
     {
         GameObject blockGenerator = new GameObject("BlockGenerator");
-        creatorBlocksComp = blockGenerator.AddComponent<CreatorBlocks>();
-        creatorBlocksComp.transform.position = new Vector3(0, 0, 0);
-        creatorBlocksComp.BlockPrefab = BlockPrefab;
-        creatorBlocksComp.CreateBlocks();
+        mapManager = blockGenerator.AddComponent<MapManager>();
+        mapManager.transform.position = new Vector3(0, 0, 0);
+        mapManager.BlockPrefab = BlockPrefab;
+        mapManager.CreateBlocks();
         string assetPathName = "Config/MapSizeData";
         MapSize mapSizeData = Resources.Load<MapSize>(assetPathName);
-        creatorBlocksComp.SetColumnRowLayer(mapSizeData.Column, mapSizeData.Row, mapSizeData.Layer);
+        mapManager.SetColumnRowLayer(mapSizeData.Column, mapSizeData.Row, mapSizeData.Layer);
         lastMoveTime = 0.0f;
         if(PlayerPrefab != null) {
             for(int i = 0; i < playerNum; ++i)
             {
                 GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-                mainCamera.transform.position = new Vector3(-1, mapSizeData.Layer + 2, -1);
-                GameObject currentGO = Instantiate(PlayerPrefab, new Vector3(0, mapSizeData.Layer + 1, 0), Quaternion.identity, this.transform);
-                Player playerCom = currentGO.AddComponent<Player>();
+                mainCamera.transform.position = new Vector3(-1, mapSizeData.Layer + 1 + Height, -1);
+                GameObject currentGO = Instantiate(PlayerPrefab, new Vector3(0, mapSizeData.Layer + Height, 0), Quaternion.identity, this.transform);
+                PlayerSelf playerCom = currentGO.AddComponent<PlayerSelf>();
+                playerCom.SetHeight(Height);
                 playerCom.SetColumnRowLayer(mapSizeData.Column, mapSizeData.Row, mapSizeData.Layer);
                 playerCom.SetPosition(0, mapSizeData.Layer + 1, 0);
                 players.Add(playerCom);
                 mainCamera.transform.LookAt(currentGO.transform);
                 mainCamera.GetComponent<Camera>().orthographic = true;
-                //currentGO.transform.SetParent(mainCamera.transform);
+                currentGO.transform.SetParent(this.transform.parent);
             }
         }
     }
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
         lastMoveTime += Time.deltaTime;
         if(lastMoveTime >= MoveTimeInterval)
         {
-            Player currentPlayer;
+            IPlayer currentPlayer;
             for(int i = 0; i < players.Count; ++i)
             {
                 currentPlayer = players[i];

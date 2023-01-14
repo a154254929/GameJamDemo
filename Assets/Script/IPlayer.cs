@@ -1,9 +1,11 @@
+Ôªøusing System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class Player : MonoBehaviour
+
+
+public class IPlayer : MonoBehaviour
 {
     public GameObject PlayerPrefab = null;
     public AudioClip ForwardAudioClip;
@@ -15,26 +17,20 @@ public class Player : MonoBehaviour
     private int column = 0;
     private int row = 0;
     private int layer = 0;
-    // “∆∂Ø∑ΩœÚ
-    private enum MoveDirection
-    {
-        None,
-        Forward,
-        BackWard,
-        Left,
-        Right
-    }
+    // ÁßªÂä®ÊñπÂêë
     private MoveDirection direction = MoveDirection.None;
     private int x = 0;
     private int y = 0;
     private int z = 0;
+    private float height = 0.1f;
+    private AutoReleaseBomb releaseBombComp;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         audioShource = this.gameObject.AddComponent<AudioSource>();
         string assetPathName = "Config/MoveAudioData";
         MoveAudio moveAudioAsset = Resources.Load<MoveAudio>(assetPathName);
-        if(moveAudioAsset != null)
+        if (moveAudioAsset != null)
         {
             ForwardAudioClip = moveAudioAsset.ForwardAudio;
             BackwardAudioClip = moveAudioAsset.BackwardAudio;
@@ -42,38 +38,21 @@ public class Player : MonoBehaviour
             RightAudioClip = moveAudioAsset.RightAudio;
             Debug.LogWarning("Audio Load Success");
         }
-}
+        releaseBombComp = this.gameObject.AddComponent<AutoReleaseBomb>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            SetDirection(MoveDirection.Forward);
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SetDirection(MoveDirection.BackWard);
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetDirection(MoveDirection.Left);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            SetDirection(MoveDirection.Right);
-        }
+        
     }
 
-    void SetDirection(MoveDirection dir)
+    public void SetDirection(MoveDirection dir)
     {
         switch (dir)
         {
             case MoveDirection.Forward:
-                if(ForwardAudioClip != null)
+                if (ForwardAudioClip != null)
                 {
                     audioShource.clip = ForwardAudioClip;
                     audioShource.Play();
@@ -121,7 +100,7 @@ public class Player : MonoBehaviour
                 z = Math.Max(z - 1, 0);
                 break;
         }
-        if (direction != MoveDirection.None) this.gameObject.transform.position = new Vector3(x, y, z);
+        if (direction != MoveDirection.None) this.gameObject.transform.position = new Vector3(x, y - 1 + height, z);
     }
 
     public void SetPosition(int x, int y, int z)
@@ -136,5 +115,10 @@ public class Player : MonoBehaviour
         this.column = column;
         this.row = row;
         this.layer = layer;
+    }
+    
+    public void SetHeight(float hieght)
+    {
+        this.height = height;
     }
 }

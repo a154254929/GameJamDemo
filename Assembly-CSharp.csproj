@@ -61,9 +61,11 @@
     <Compile Include="Assets\Script\AutoReleaseBomb.cs" />
     <Compile Include="Assets\Script\Blocks.cs" />
     <Compile Include="Assets\Script\Bomb.cs" />
-    <Compile Include="Assets\Script\CreatorBlocks.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
-    <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\IPlayer.cs" />
+    <Compile Include="Assets\Script\MapManager.cs" />
+    <Compile Include="Assets\Script\MoveDirection.cs" />
+    <Compile Include="Assets\Script\PlayerSelf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shader\Cube.shader" />

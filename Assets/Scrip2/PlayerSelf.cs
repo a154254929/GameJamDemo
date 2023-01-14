@@ -6,7 +6,7 @@ namespace GameJamDemo
 {
     public class PlayerSelf : IPlayer
     {
-        public void Move()
+        public void Move(MoveDirection direction)
         {
             throw new System.NotImplementedException();
         }

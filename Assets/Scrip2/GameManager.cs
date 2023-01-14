@@ -86,6 +86,27 @@ namespace GameJamDemo
             playerSelf.UpdateHeight();
             playerOther.UpdateHeight();
         }
+
+        public void UpdatePlayerControl()
+        {
+            float h = Input.GetAxisRaw("Horizontal");
+            float z = Input.GetAxisRaw("Vertical");
+            MoveDirection direction = MoveDirection.None;
+            //if (h > 0)
+            //{
+            //    direction = MoveDirection.Right;
+            //}
+            //else if (h < 0)
+            //{
+            //    direction = MoveDirection.Left;
+            //}
+            //else
+            //{
+            //    direction = MoveDirection.None;
+            //}
+
+            playerSelf.SetDirection(direction);
+        }
     }
 }
 

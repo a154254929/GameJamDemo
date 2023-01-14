@@ -24,7 +24,7 @@ namespace GameJamDemo
         private Vector3 m_position;
         private GameObject m_obj;
 
-        void SetDirection(MoveDirection direction)
+        public void SetDirection(MoveDirection direction)
         {
             m_direction = direction;
             //更新模型的方向

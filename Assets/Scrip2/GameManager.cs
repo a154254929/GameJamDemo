@@ -23,9 +23,12 @@ namespace GameJamDemo
         }
 
         private float m_timer = 0;
+        private bool m_start = false;
 
         public MapManager mapManager = new MapManager();
 
+        public BasePlayer playerSelf = new PlayerSelf();
+        public BasePlayer playerOther = new PlayerOther();
 
         public void Awake()
         {
@@ -37,15 +40,22 @@ namespace GameJamDemo
         /// </summary>
         public void Step()
         {
-
+            playerSelf.Move();
+            playerOther.Move();
         }
 
         private void Update()
         {
+            if (!m_start)
+            {
+                return;
+            }
+
             m_timer += Time.deltaTime;
-            if (m_timer > 1)
+            if (m_timer >= 1)
             {
                 Step();
+                m_timer = 0;
             }
         }
     }

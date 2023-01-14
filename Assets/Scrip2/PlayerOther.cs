@@ -4,17 +4,9 @@ using UnityEngine;
 
 namespace GameJamDemo
 {
-    public class PlayerOther : IPlayer
+    public class PlayerOther : BasePlayer
     {
-        public void Move(MoveDirection direction)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public void SetDirection()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
 

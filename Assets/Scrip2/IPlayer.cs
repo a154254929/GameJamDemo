@@ -18,6 +18,7 @@ namespace GameJamDemo
         private MapManager mapManager = GameManager.Instance.mapManager;
         private MoveDirection m_direction;
         private Vector3 m_position;
+        private GameObject m_obj;
 
         void SetDirection(MoveDirection direction)
         {
@@ -38,7 +39,11 @@ namespace GameJamDemo
         /// <param name="pos"></param>
         public void SetPos(Vector3 pos)
         {
-            //TODO
+            var block = mapManager.GetBlock((int)pos.x, (int)pos.y, (int)pos.z);
+            var blockPos = block.GetObjPosition();
+            //TODO 玩家模型到脚下的方块模型位置的偏移，后续使用配置
+            Vector3 posOffset = Vector3.zero;
+            m_obj.transform.position = blockPos + posOffset;
         }
     }
 }

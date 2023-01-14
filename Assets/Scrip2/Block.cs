@@ -30,6 +30,11 @@ namespace GameJamDemo
                 m_obj = GameObject.Instantiate(obj);
             }
         }
+
+        public Vector3 GetObjPosition()
+        {
+            return m_obj.transform.position;
+        }
     }
 }
 

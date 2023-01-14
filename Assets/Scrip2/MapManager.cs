@@ -11,6 +11,9 @@ namespace GameJamDemo
     {
         private Block[,,] m_blocks;
         private Vector3 mapSize;
+        private int[,] mapHeight;
+        /// 方块是否下落
+        private bool isBlockDrop = false;
         /// <summary>
         /// 创建地图
         /// </summary>
@@ -29,6 +32,7 @@ namespace GameJamDemo
                     for (int indexY = 0; indexY < m_blocks.GetLength(2); indexY++)
                     {
                         m_blocks[indexX, indexY, layer] = new Block(indexX, indexY, layer, obj);
+                        mapHeight[indexX, indexY] = layer;
                     }
                 }
             }
@@ -64,11 +68,16 @@ namespace GameJamDemo
             Vector3 nextPosition = pos + nextMoveMent;
             //判断目标位置是否合法
             bool nextPosValid = true;
-            //高度小于目标点
-            if (GetHeigh(pos.x, pos.y) < GetHeigh(nextPosition.x, nextPosition.y))
+            //如果方块会自动下落
+            if (isBlockDrop)
             {
-                nextPosValid = false;
+                //高度小于目标点
+                if (GetHeight(pos.x, pos.y) < GetHeight(nextPosition.x, nextPosition.y))
+                {
+                    nextPosValid = false;
+                }
             }
+            else nextPosValid = GetBlock((int)nextPosition.x, (int)nextPosition.y, (int)nextPosition.z).IsActive;
             //超出范围
             if (IsOutBound(nextPosition))
             {
@@ -85,9 +94,9 @@ namespace GameJamDemo
         /// 根据二维坐标，获取高度
         /// </summary>
         /// <returns></returns>
-        public int GetHeigh(float x, float y)
+        public int GetHeight(float x, float y)
         {
-            return 1;
+            return mapHeight[(int)x, (int)y];
         }
 
         /// <summary>
@@ -96,7 +105,9 @@ namespace GameJamDemo
         /// <returns></returns>
         public bool IsOutBound(Vector3 targetPos)
         {
-            return false;
+            return targetPos.x < 0 || targetPos.x >= mapSize.x||
+                targetPos.y < 0 || targetPos.y >= mapSize.y||
+                targetPos.z < 0 || targetPos.z >= mapSize.z;
         }
     }
 }

@@ -42,6 +42,10 @@ namespace GameJamDemo
         {
             return m_blocks[x, y, z];
         }
+        public Block GetBlock(Vector3 pos)
+        {
+            return m_blocks[(int)pos.x, (int)pos.y, (int)pos.z];
+        }
 
         public Vector3 TryMove(Vector3 pos, MoveDirection direction)
         {
@@ -108,6 +112,30 @@ namespace GameJamDemo
             return targetPos.x < 0 || targetPos.x >= mapSize.x||
                 targetPos.y < 0 || targetPos.y >= mapSize.y||
                 targetPos.z < 0 || targetPos.z >= mapSize.z;
+        }
+
+        /// <summary>
+        /// 爆炸，以参数位置为中心，十字形消除周围格子，随后更新所有玩家位置
+        /// </summary>
+        /// <param name="pos"></param>
+        public void Explode(Vector3 pos)
+        {
+            Block Left = GetBlock(TryMove(pos, MoveDirection.Left));
+            Block Right = GetBlock(TryMove(pos, MoveDirection.Right));
+            Block Down = GetBlock(TryMove(pos, MoveDirection.Down));
+
+            if (Left != null)
+            {
+                Left.IsActive = false;
+            }
+            if (Right != null)
+            {
+                Right.IsActive = false;
+            }
+            if (Down != null)
+            {
+                Down.IsActive = false;
+            }
         }
     }
 }

@@ -10,7 +10,9 @@ namespace GameJamDemo
         Forward,
         BackWard,
         Left,
-        Right
+        Right,
+        Up,
+        Down,
     }
 
     public class BasePlayer
@@ -44,6 +46,14 @@ namespace GameJamDemo
             //TODO 玩家模型到脚下的方块模型位置的偏移，后续使用配置
             Vector3 posOffset = Vector3.zero;
             m_obj.transform.position = blockPos + posOffset;
+        }
+
+        /// <summary>
+        /// 更新玩家高度
+        /// </summary>
+        public void UpdateHeight()
+        {
+
         }
     }
 }

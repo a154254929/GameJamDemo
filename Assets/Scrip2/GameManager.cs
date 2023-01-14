@@ -26,6 +26,8 @@ namespace GameJamDemo
         private bool m_start = false;
 
         public MapManager mapManager = new MapManager();
+        public BombManager bombManager = new BombManager();
+        //GameConfig gameConfig = new GameConfig();
 
         public BasePlayer playerSelf = new PlayerSelf();
         public BasePlayer playerOther = new PlayerOther();
@@ -50,6 +52,7 @@ namespace GameJamDemo
             {
                 return;
             }
+            bombManager.OnUpdate();
 
             m_timer += Time.deltaTime;
             if (m_timer >= 1)
@@ -57,6 +60,15 @@ namespace GameJamDemo
                 Step();
                 m_timer = 0;
             }
+        }
+
+        /// <summary>
+        /// 炸弹爆炸强制刷新玩家高度位置
+        /// </summary>
+        public void UpdatePlayerUpdateHeight()
+        {
+            playerSelf.UpdateHeight();
+            playerOther.UpdateHeight();
         }
     }
 }

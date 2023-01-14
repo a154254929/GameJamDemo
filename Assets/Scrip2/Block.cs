@@ -20,7 +20,7 @@ namespace GameJamDemo
             }
             get
             {
-                return m_obj.active;
+                return m_obj.activeSelf;
             }
         }
 

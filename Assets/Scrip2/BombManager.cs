@@ -9,11 +9,14 @@ namespace GameJamDemo
     /// </summary>
     public class Bomb
     {
+        private MapManager manager = GameManager.Instance.mapManager;
         private GameObject m_obj;
         private float m_timer = 0;
-        public Bomb(GameObject sourceObj)
+        private Vector3 m_position;
+        public Bomb(Vector3 position, GameObject sourceObj)
         {
             m_obj = GameObject.Instantiate(sourceObj);
+            m_position = position;
         }
 
         /// <summary>
@@ -31,7 +34,16 @@ namespace GameJamDemo
         /// </summary>
         public void Explode()
         {
+            manager.Explode(m_position);
+            Release();
+        }
 
+        /// <summary>
+        /// 销毁炸弹
+        /// </summary>
+        public void Release()
+        {
+            GameObject.Destroy(m_obj);
         }
     }
 

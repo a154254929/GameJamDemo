@@ -18,6 +18,10 @@ namespace GameJamDemo
                     m_obj.SetActive(value);
                 }
             }
+            get
+            {
+                return m_obj.active;
+            }
         }
 
         private GameObject m_obj;

@@ -12,7 +12,9 @@ public class IPlayer : MonoBehaviour
     public AudioClip BackwardAudioClip;
     public AudioClip LeftAudioClip;
     public AudioClip RightAudioClip;
-    public AudioSource audioShource = null;
+    public AudioSource Audio = null;
+    public MapManager MapMgr;
+    public GameObject BombPrefab = null;
 
     private int column = 0;
     private int row = 0;
@@ -23,11 +25,10 @@ public class IPlayer : MonoBehaviour
     private int y = 0;
     private int z = 0;
     private float height = 0.1f;
-    private AutoReleaseBomb releaseBombComp;
     // Start is called before the first frame update
     public void Start()
     {
-        audioShource = this.gameObject.AddComponent<AudioSource>();
+        Audio = this.gameObject.AddComponent<AudioSource>();
         string assetPathName = "Config/MoveAudioData";
         MoveAudio moveAudioAsset = Resources.Load<MoveAudio>(assetPathName);
         if (moveAudioAsset != null)
@@ -38,13 +39,21 @@ public class IPlayer : MonoBehaviour
             RightAudioClip = moveAudioAsset.RightAudio;
             Debug.LogWarning("Audio Load Success");
         }
-        releaseBombComp = this.gameObject.AddComponent<AutoReleaseBomb>();
+        assetPathName = "Prefab/BombPrefab";
+        BombPrefab = Resources.Load<GameObject>(assetPathName);
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+    }
+
+    public void CreateBomb()
+    {
+        GameObject gameObject = Instantiate(BombPrefab, this.gameObject.transform.position, Quaternion.identity);
+        Bomb bomb = gameObject.AddComponent<Bomb>();
+        bomb.MapMgr = MapMgr;
+        bomb.SepPos(x, y, z);
     }
 
     public void SetDirection(MoveDirection dir)
@@ -54,29 +63,29 @@ public class IPlayer : MonoBehaviour
             case MoveDirection.Forward:
                 if (ForwardAudioClip != null)
                 {
-                    audioShource.clip = ForwardAudioClip;
-                    audioShource.Play();
+                    Audio.clip = ForwardAudioClip;
+                    Audio.Play();
                 }
                 break;
             case MoveDirection.BackWard:
                 if (BackwardAudioClip != null)
                 {
-                    audioShource.clip = BackwardAudioClip;
-                    audioShource.Play();
+                    Audio.clip = BackwardAudioClip;
+                    Audio.Play();
                 }
                 break;
             case MoveDirection.Left:
                 if (LeftAudioClip != null)
                 {
-                    audioShource.clip = LeftAudioClip;
-                    audioShource.Play();
+                    Audio.clip = LeftAudioClip;
+                    Audio.Play();
                 }
                 break;
             case MoveDirection.Right:
                 if (RightAudioClip != null)
                 {
-                    audioShource.clip = RightAudioClip;
-                    audioShource.Play();
+                    Audio.clip = RightAudioClip;
+                    Audio.Play();
                 }
                 break;
         }
@@ -85,22 +94,36 @@ public class IPlayer : MonoBehaviour
 
     public void Move()
     {
+        int nextX = x;
+        int nextY = y;
+        int nextZ = z;
         switch (direction)
         {
             case MoveDirection.Forward:
-                x = Math.Min(x + 1, column - 1);
+                nextX = Math.Min(nextX + 1, column - 1);
                 break;
             case MoveDirection.BackWard:
-                x = Math.Max(x - 1, 0);
+                nextX = Math.Max(nextX - 1, 0);
                 break;
             case MoveDirection.Left:
-                z = Math.Min(z + 1, row - 1);
+                nextZ = Math.Min(nextZ + 1, row - 1);
                 break;
             case MoveDirection.Right:
-                z = Math.Max(z - 1, 0);
+                nextZ = Math.Max(nextZ - 1, 0);
                 break;
         }
-        if (direction != MoveDirection.None) this.gameObject.transform.position = new Vector3(x, y - 1 + height, z);
+        bool canMoveNextStep = !MapMgr.HaveBlock(nextX, nextY, nextZ);
+        if(canMoveNextStep)
+        {
+            while(nextY - 1 >= 0 && !MapMgr.HaveBlock(nextX, nextY - 1, nextZ))
+            {
+                nextY -= 1;
+            }
+            x = nextX;
+            y = nextY;
+            z = nextZ;
+        }
+        if (direction != MoveDirection.None) this.gameObject.transform.position = new Vector3(x, y + height, z);
     }
 
     public void SetPosition(int x, int y, int z)

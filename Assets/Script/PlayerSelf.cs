@@ -14,6 +14,7 @@ public class PlayerSelf : IPlayer
     // Update is called once per frame
     void Update()
     {
+        base.Update();
         if (Input.GetKeyDown(KeyCode.W))
         {
             base.SetDirection(MoveDirection.Forward);

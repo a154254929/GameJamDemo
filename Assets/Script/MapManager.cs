@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public int Columm = 6;
+    public int Column = 6;
     public int Row = 6;
     public int Layer = 10;
     public GameObject BlockPrefab = null;
     private List<List<List<Blocks>>> blocks;
     // Start is called before the first frame update
+
     void Start()
     {
         this.transform.position = new Vector3(0, 0, 0);
@@ -23,7 +24,7 @@ public class MapManager : MonoBehaviour
 
     public void SetColumnRowLayer(int column, int row, int layer)
     {
-        this.Columm = column;
+        this.Column = column;
         this.Row = row;
         this.Layer = layer;
     }
@@ -34,15 +35,15 @@ public class MapManager : MonoBehaviour
         int count = 0;
         if (BlockPrefab != null)
         {
-            for (int i = 0; i < Layer; ++i)
+            for (int i = 0; i < Column; ++i)
             {
                 List<List<Blocks>> currentLayer = new List<List<Blocks>>();
-                for (int j = 0; j < Row; ++j)
+                for (int j = 0; j < Layer; ++j)
                 {
                     List<Blocks> currentRow = new List<Blocks>();
-                    for (int k = 0; k < Columm; ++k)
+                    for (int k = 0; k < Row; ++k)
                     {
-                        GameObject currentGO = Instantiate(BlockPrefab, new Vector3((float)k, (float)(i + 0.5), (float)j), Quaternion.identity, this.transform);
+                        GameObject currentGO = Instantiate(BlockPrefab, new Vector3((float)i, (float)(j + 0.5), (float)k), Quaternion.identity, this.transform);
                         currentGO.name = string.Format("Block{0}", count);
                         currentRow.Add(currentGO.AddComponent<Blocks>());
                         count++;
@@ -52,5 +53,23 @@ public class MapManager : MonoBehaviour
                 blocks.Add(currentLayer);
             }
         }
+    }
+
+    public void OnBombExplod(int x, int y, int z)
+    {
+        if(x + 1 < Column && y - 1 >= 0) blocks[x + 1][y - 1][z].OnBombExplod();
+        if(x - 1 >= 0 && y - 1 >= 0) blocks[x -1][y - 1][z].OnBombExplod();
+        if(y - 1 >= 0) blocks[x][y - 1][z].OnBombExplod();
+        if(z + 1 < Row && y - 1 >= 0) blocks[x][y - 1][z + 1].OnBombExplod();
+        if(z - 1 >= 0 && y - 1 >= 0) blocks[x][y - 1][z - 1].OnBombExplod();
+    }
+
+    public bool HaveBlock(int x, int y, int z)
+    {
+        if(x < Column && x >= 0 && y < Layer && y >= 0 && z < Row && z >= 0)
+        {
+            return !blocks[x][y][z].GetIsDestroy();
+        }
+        return false;
     }
 }

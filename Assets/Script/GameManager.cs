@@ -7,10 +7,12 @@ public class GameManager : MonoBehaviour
     public float MoveTimeInterval = 1.0f;
     public GameObject PlayerPrefab = null;
     public GameObject BlockPrefab = null;
+    public float GenerateBombTime = 3.0f;
     public float Height = 0.1f;
 
     private int playerNum = 1;
     private float lastMoveTime = 0.0f;
+    private float unGenerateBombTime = 0f;
     private List<IPlayer> players = new List<IPlayer>();
     private MapManager mapManager;
     // Start is called before the first frame update
@@ -25,7 +27,8 @@ public class GameManager : MonoBehaviour
         MapSize mapSizeData = Resources.Load<MapSize>(assetPathName);
         mapManager.SetColumnRowLayer(mapSizeData.Column, mapSizeData.Row, mapSizeData.Layer);
         lastMoveTime = 0.0f;
-        if(PlayerPrefab != null) {
+        unGenerateBombTime = 0.0f;
+        if (PlayerPrefab != null) {
             for(int i = 0; i < playerNum; ++i)
             {
                 GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -34,7 +37,8 @@ public class GameManager : MonoBehaviour
                 PlayerSelf playerCom = currentGO.AddComponent<PlayerSelf>();
                 playerCom.SetHeight(Height);
                 playerCom.SetColumnRowLayer(mapSizeData.Column, mapSizeData.Row, mapSizeData.Layer);
-                playerCom.SetPosition(0, mapSizeData.Layer + 1, 0);
+                playerCom.SetPosition(0, mapSizeData.Layer , 0);
+                playerCom.MapMgr = mapManager;
                 players.Add(playerCom);
                 mainCamera.transform.LookAt(currentGO.transform);
                 mainCamera.GetComponent<Camera>().orthographic = true;
@@ -47,15 +51,22 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         lastMoveTime += Time.deltaTime;
-        if(lastMoveTime >= MoveTimeInterval)
+        if (lastMoveTime >= MoveTimeInterval)
         {
-            IPlayer currentPlayer;
             for(int i = 0; i < players.Count; ++i)
             {
-                currentPlayer = players[i];
-                currentPlayer.Move();
+                players[i].Move();
             }
             lastMoveTime -= MoveTimeInterval;
+        }
+        unGenerateBombTime += Time.deltaTime;
+        if (unGenerateBombTime >= GenerateBombTime)
+        {
+            for (int i = 0; i < players.Count; ++i)
+            {
+                players[i].CreateBomb();
+            }
+            unGenerateBombTime -= GenerateBombTime;
         }
     }
 }

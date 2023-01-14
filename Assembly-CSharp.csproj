@@ -58,6 +58,14 @@
   <ItemGroup>
     <Compile Include="Assets\Resources\Config\Script\MapSize.cs" />
     <Compile Include="Assets\Resources\Config\Script\MoveAudio.cs" />
+    <Compile Include="Assets\Scrip2\Block.cs" />
+    <Compile Include="Assets\Scrip2\BombManager.cs" />
+    <Compile Include="Assets\Scrip2\GameConfig.cs" />
+    <Compile Include="Assets\Scrip2\GameManager.cs" />
+    <Compile Include="Assets\Scrip2\IPlayer.cs" />
+    <Compile Include="Assets\Scrip2\MapManager.cs" />
+    <Compile Include="Assets\Scrip2\PlayerOther.cs" />
+    <Compile Include="Assets\Scrip2\PlayerSelf.cs" />
     <Compile Include="Assets\Script\AutoReleaseBomb.cs" />
     <Compile Include="Assets\Script\Blocks.cs" />
     <Compile Include="Assets\Script\Bomb.cs" />

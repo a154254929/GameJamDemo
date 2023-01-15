@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GameJamDemo
 {
@@ -19,17 +20,19 @@ namespace GameJamDemo
     {
         private MapManager mapManager = GameManager.Instance.mapManager;
         private BombManager bombManager = GameManager.Instance.bombManager;
-        private GameConfig gameConfig = GameManager.Instance.config;
+        private GameConfig gameConfig = GameManager.Instance.gameConfig;
 
         private MoveDirection m_direction;
         private Vector3Int m_position;
         private GameObject m_obj;
 
+        protected bool IsSelf;
         public BasePlayer(Vector3Int initPos, GameObject obj)
         {
             m_position = initPos;
             m_obj = GameObject.Instantiate(obj);
             m_direction = MoveDirection.Forward;
+            SetPos(m_position);
         }
 
         public void SetDirection(MoveDirection direction)
@@ -39,10 +42,14 @@ namespace GameJamDemo
 
         }
 
-        public void Move()
+        public bool Move()
         {
-            Vector3Int result = mapManager.TryMove(m_position, m_direction);
+            bool gameOver = false;
+            Vector3Int result = mapManager.TryMove(m_position, m_direction, out gameOver);
+            //Debug.LogFormat("curPos {0}, dir {1}, result {2}", m_position, m_direction, result);
             SetPos(result);
+
+            return gameOver;
         }
 
         /// <summary>
@@ -51,6 +58,7 @@ namespace GameJamDemo
         /// <param name="pos"></param>
         public void SetPos(Vector3Int pos)
         {
+            m_position = pos;
             var block = mapManager.GetBlock(pos);
             var blockPos = block.GetObjTransPosition();
             m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 namespace GameJamDemo
 {
@@ -9,7 +11,9 @@ namespace GameJamDemo
     /// </summary>
     public class Bomb
     {
-        private MapManager manager = GameManager.Instance.mapManager;
+        private MapManager mapManager = GameManager.Instance.mapManager;
+        private GameConfig gameConfig = GameManager.Instance.gameConfig;
+
         private GameObject m_obj;
         private float m_timer = 0;
         private Vector3Int m_position;
@@ -17,6 +21,10 @@ namespace GameJamDemo
         {
             m_position = position;
             m_obj = GameObject.Instantiate(sourceObj);
+
+            var block = mapManager.GetBlock(m_position);
+            var blockPos = block.GetObjTransPosition();
+            m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
         }
 
         /// <summary>
@@ -34,7 +42,7 @@ namespace GameJamDemo
         /// </summary>
         public void Explode()
         {
-            manager.Explode(m_position);
+            mapManager.Explode(m_position);
             Release();
         }
 
@@ -55,7 +63,6 @@ namespace GameJamDemo
     public class BombManager
     {
         private List<Bomb> m_bombList = new List<Bomb>();
-        private GameObject m_bombObj;
 
         public void OnUpdate()
         {
@@ -71,7 +78,17 @@ namespace GameJamDemo
 
         public void AddBomb(Vector3Int pos)
         {
-            m_bombList.Add(new Bomb(pos, m_bombObj));
+            m_bombList.Add(new Bomb(pos, GameManager.Instance.gameConfig.BombPrefab));
+        }
+
+        public void ClearAllBomb()
+        {
+            for (int i = m_bombList.Count - 1; i >= 0; i--)
+            {
+                m_bombList[i].Release();
+                m_bombList.RemoveAt(i);
+            }
+            m_bombList.Clear();
         }
     }
 }

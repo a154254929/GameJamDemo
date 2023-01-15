@@ -8,6 +8,7 @@ namespace GameJamDemo
     {
         public PlayerSelf(Vector3Int initPos, GameObject obj) : base(initPos, obj)
         {
+            IsSelf = true;
         }
     }
 }

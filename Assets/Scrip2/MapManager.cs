@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GameJamDemo
 {
@@ -12,9 +13,6 @@ namespace GameJamDemo
         private Block[,,] m_blocks;
         private Vector3Int m_mapSize;
         private GameObject m_mapRoot;
-
-        /// 方块是否下落
-        //private bool isBlockDrop = false;
 
         public Transform GetRootTramsform()
         {
@@ -79,53 +77,50 @@ namespace GameJamDemo
             return curPos + nextMoveMent;
         }
 
-        public Vector3Int TryMove(Vector3Int curPos, MoveDirection direction)
+        public Vector3Int TryMove(Vector3Int curPos, MoveDirection direction, out bool gameOver)
         {
-            bool canMove = true;
+            gameOver = false;
             Vector3Int nextPosition = GetNextPosition(curPos, direction);
-
-            //超出范围
+            Vector3Int result = nextPosition;
+            //是否超出边界
             if (IsOutBound(nextPosition))
             {
-                canMove = false;
+                result = curPos;
             }
-            if (GetHeight(curPos.x, curPos.y) < GetHeight(nextPosition.x, nextPosition.y))
+            //目标位置上方没有物体才能移动
+            Vector3Int nextAbovePos = nextPosition + new Vector3Int(0, 0, 1);
+            if (GetBlock(nextAbovePos) != null && GetBlock(nextAbovePos).IsActive)
             {
-                canMove = false;
+                result = curPos;
+            }
+            //计算目标点的高度
+            bool haveBlock = true;
+            result = GetActiveBlockPos(result, out haveBlock);
+            if (!haveBlock)
+            {
+                gameOver = true;
             }
 
-            ////如果方块会自动下落
-            //if (isBlockDrop)
-            //{
-            //    //高度小于目标点
-            //    if (GetHeight(curPos.x, curPos.y) < GetHeight(nextPosition.x, nextPosition.y))
-            //    {
-            //        canMove = false;
-            //    }
-            //}
-            //else
-            //    canMove = GetBlock(nextPosition.x, nextPosition.y, nextPosition.z).IsActive;
-
-            if (canMove)
-                return nextPosition;
-            else
-                return curPos;
+            return result;
         }
 
         /// <summary>
-        /// 根据二维坐标，获取高度
+        /// 在指定位置从上到下找一个显示的方块的位置
         /// </summary>
         /// <returns></returns>
-        public int GetHeight(int x, int y)
+        public Vector3Int GetActiveBlockPos(Vector3Int pos, out bool haveBlock)
         {
-            for (int layer = 0; layer < m_blocks.GetLength(2); layer++)
+            for (int layer = pos.z; layer >= 0; layer--)
             {
-                if (!m_blocks[x, y, layer].IsActive)
+                if (m_blocks[pos.x, pos.y, layer].IsActive)
                 {
-                    return layer;
+                    haveBlock = true;
+                    return new Vector3Int(pos.x, pos.y, layer);
                 }
             }
-            return 0;
+
+            haveBlock = false;
+            return new Vector3Int(pos.x, pos.y, 0);
         }
 
         /// <summary>
@@ -134,8 +129,8 @@ namespace GameJamDemo
         /// <returns></returns>
         public bool IsOutBound(Vector3Int targetPos)
         {
-            return targetPos.x < 0 || targetPos.x >= m_mapSize.x||
-                targetPos.y < 0 || targetPos.y >= m_mapSize.y||
+            return targetPos.x < 0 || targetPos.x >= m_mapSize.x ||
+                targetPos.y < 0 || targetPos.y >= m_mapSize.y ||
                 targetPos.z < 0 || targetPos.z >= m_mapSize.z;
         }
 

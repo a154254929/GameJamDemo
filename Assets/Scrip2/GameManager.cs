@@ -7,7 +7,7 @@ namespace GameJamDemo
     /// <summary>
     /// 管理游戏的总流程
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager
     {
         private static GameManager m_instance;
         public static GameManager Instance
@@ -22,26 +22,45 @@ namespace GameJamDemo
             }
         }
 
+        public MapManager mapManager;
+        public BombManager bombManager;
+        public GameConfig gameConfig;
+
+        public GameManager()
+        {
+            mapManager = new MapManager();
+            bombManager = new BombManager();
+        }
+
         private float m_timer = 0;
         private float m_bombTiemr = 0;
         private bool m_start = false;
 
-        public MapManager mapManager = new MapManager();
-        public BombManager bombManager = new BombManager();
-        public GameConfig config;
-
         public BasePlayer playerSelf;
         public BasePlayer playerOther;
 
-        public void Awake()
+        public void SetConfig(GameConfig config)
         {
-            mapManager.CreateMap(config.MapSize, config.BlockPrefab);
+            gameConfig = config;
+        }
+
+        public void StartGame()
+        {
+            mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
+            CreaterPlayer();
+            m_start = true;
+        }
+
+        public void StopGame()
+        {
+            m_start = false;
+            bombManager.ClearAllBomb();
         }
 
         public void CreaterPlayer()
         {
-            playerSelf = new PlayerSelf(Vector3Int.zero, config.player1Prfab);
-            playerOther = new PlayerOther(Vector3Int.zero, config.player2Prfab);
+            playerSelf = new PlayerSelf(new Vector3Int(0, 0, gameConfig.MapSize.z - 1), gameConfig.player1Prfab);
+            playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), gameConfig.player2Prfab);
         }
 
         /// <summary>
@@ -49,8 +68,29 @@ namespace GameJamDemo
         /// </summary>
         public void Step()
         {
-            playerSelf.Move();
-            playerOther.Move();
+            bool selfGameOver = playerSelf.Move();
+            bool otherGameOver = playerOther.Move();
+
+            if (selfGameOver || otherGameOver)
+            {
+                StopGame();
+            }
+
+            if (selfGameOver && !otherGameOver)
+            {
+                //失败
+                Debug.Log("失败");
+            }
+            else if (!selfGameOver && otherGameOver)
+            {
+                //胜利
+                Debug.Log("胜利");
+            }
+            else if (selfGameOver && otherGameOver)
+            {
+                //平局
+                Debug.Log("平局");
+            }
         }
 
         /// <summary>
@@ -62,7 +102,7 @@ namespace GameJamDemo
             playerOther.SetBomb();
         }
 
-        private void Update()
+        public void Update()
         {
             if (!m_start)
             {

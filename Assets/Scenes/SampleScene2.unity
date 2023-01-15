@@ -156,8 +156,8 @@ Camera:
   m_GameObject: {fileID: 556507213}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.4481132, g: 0.6223794, b: 0.8962264, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -174,7 +174,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.87
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556507213}
   m_LocalRotation: {x: -0.328413, y: -0.36499783, z: 0.13939573, w: -0.85993624}
-  m_LocalPosition: {x: -3.0799303, y: 14.976662, z: -2.5666265}
+  m_LocalPosition: {x: -2.77, y: 11.35, z: -2.5666265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1983304492}
   - component: {fileID: 1983304491}
   m_Layer: 0
-  m_Name: GameMgr
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1983304490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6b0fae56459a594e9ed9df3a53d5f3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 491dde491f9380e48aa2ead5929ab0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: c5d705e1f72f50c4c906fc931852d859, type: 2}

@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IP: 
   port: 0
-  MapSize: {x: 6, y: 6, z: 10}
+  MapSize: {x: 5, y: 5, z: 8}
+  PlayerPosOffset: {x: 0, y: 0.5, z: 0}
   BlockPrefab: {fileID: 7854161510853045, guid: dc36908bddec7484abc602a0d289b9d5,
     type: 3}
-  PlayerPosOffset: {x: 0, y: 0, z: 0}
+  BombPrefab: {fileID: 8217749815404813082, guid: 19b902ce8761f5e4793095704ea71364,
+    type: 3}
   player1Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
     type: 3}
   player2Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,

@@ -12,11 +12,11 @@ namespace GameJamDemo
         private MapManager manager = GameManager.Instance.mapManager;
         private GameObject m_obj;
         private float m_timer = 0;
-        private Vector3 m_position;
-        public Bomb(Vector3 position, GameObject sourceObj)
+        private Vector3Int m_position;
+        public Bomb(Vector3Int position, GameObject sourceObj)
         {
-            m_obj = GameObject.Instantiate(sourceObj);
             m_position = position;
+            m_obj = GameObject.Instantiate(sourceObj);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace GameJamDemo
             }
         }
 
-        public void AddBomb(Vector3 pos)
+        public void AddBomb(Vector3Int pos)
         {
             m_bombList.Add(new Bomb(pos, m_bombObj));
         }

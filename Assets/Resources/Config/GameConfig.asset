@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e5885a750b0ec4cabe909a66a4168b, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  IP: 
+  port: 0
+  MapSize: {x: 6, y: 6, z: 10}
+  BlockPrefab: {fileID: 7854161510853045, guid: dc36908bddec7484abc602a0d289b9d5,
+    type: 3}
+  PlayerPosOffset: {x: 0, y: 0, z: 0}
+  player1Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
+    type: 3}
+  player2Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
+    type: 3}

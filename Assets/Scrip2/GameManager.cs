@@ -28,14 +28,20 @@ namespace GameJamDemo
 
         public MapManager mapManager = new MapManager();
         public BombManager bombManager = new BombManager();
-        //GameConfig gameConfig = new GameConfig();
+        public GameConfig config;
 
-        public BasePlayer playerSelf = new PlayerSelf();
-        public BasePlayer playerOther = new PlayerOther();
+        public BasePlayer playerSelf;
+        public BasePlayer playerOther;
 
         public void Awake()
         {
-            mapManager.CreateMap(2, 2, 2, null);
+            mapManager.CreateMap(config.MapSize, config.BlockPrefab);
+        }
+
+        public void CreaterPlayer()
+        {
+            playerSelf = new PlayerSelf(Vector3Int.zero, config.player1Prfab);
+            playerOther = new PlayerOther(Vector3Int.zero, config.player2Prfab);
         }
 
         /// <summary>
@@ -63,6 +69,7 @@ namespace GameJamDemo
                 return;
             }
             bombManager.OnUpdate();
+            UpdatePlayerControl();
 
             m_timer += Time.deltaTime;
             m_bombTiemr += Time.deltaTime;
@@ -90,22 +97,18 @@ namespace GameJamDemo
         public void UpdatePlayerControl()
         {
             float h = Input.GetAxisRaw("Horizontal");
-            float z = Input.GetAxisRaw("Vertical");
-            MoveDirection direction = MoveDirection.None;
-            //if (h > 0)
-            //{
-            //    direction = MoveDirection.Right;
-            //}
-            //else if (h < 0)
-            //{
-            //    direction = MoveDirection.Left;
-            //}
-            //else
-            //{
-            //    direction = MoveDirection.None;
-            //}
+            float v = Input.GetAxisRaw("Vertical");
 
-            playerSelf.SetDirection(direction);
+            if (h > 0)
+                playerSelf.SetDirection(MoveDirection.Right);
+            else if (h < 0)
+                playerSelf.SetDirection(MoveDirection.Left);
+
+            if (v > 0)
+                playerSelf.SetDirection(MoveDirection.Forward);
+            else if (v < 0)
+                playerSelf.SetDirection(MoveDirection.BackWard);
+
         }
     }
 }

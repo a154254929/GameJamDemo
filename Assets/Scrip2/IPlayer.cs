@@ -19,10 +19,18 @@ namespace GameJamDemo
     {
         private MapManager mapManager = GameManager.Instance.mapManager;
         private BombManager bombManager = GameManager.Instance.bombManager;
+        private GameConfig gameConfig = GameManager.Instance.config;
 
         private MoveDirection m_direction;
-        private Vector3 m_position;
+        private Vector3Int m_position;
         private GameObject m_obj;
+
+        public BasePlayer(Vector3Int initPos, GameObject obj)
+        {
+            m_position = initPos;
+            m_obj = GameObject.Instantiate(obj);
+            m_direction = MoveDirection.Forward;
+        }
 
         public void SetDirection(MoveDirection direction)
         {
@@ -33,7 +41,7 @@ namespace GameJamDemo
 
         public void Move()
         {
-            Vector3 result = mapManager.TryMove(m_position, m_direction);
+            Vector3Int result = mapManager.TryMove(m_position, m_direction);
             SetPos(result);
         }
 
@@ -41,13 +49,11 @@ namespace GameJamDemo
         /// 设置玩家位置
         /// </summary>
         /// <param name="pos"></param>
-        public void SetPos(Vector3 pos)
+        public void SetPos(Vector3Int pos)
         {
-            var block = mapManager.GetBlock((int)pos.x, (int)pos.y, (int)pos.z);
-            var blockPos = block.GetObjPosition();
-            //TODO 玩家模型到脚下的方块模型位置的偏移，后续使用配置
-            Vector3 posOffset = Vector3.zero;
-            m_obj.transform.position = blockPos + posOffset;
+            var block = mapManager.GetBlock(pos);
+            var blockPos = block.GetObjTransPosition();
+            m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
         }
 
         /// <summary>
@@ -64,6 +70,11 @@ namespace GameJamDemo
         public void SetBomb()
         {
             bombManager.AddBomb(m_position);
+        }
+
+        public void Release()
+        {
+            GameObject.Destroy(m_obj);
         }
     }
 }

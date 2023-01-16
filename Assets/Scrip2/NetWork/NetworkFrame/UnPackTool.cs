@@ -43,7 +43,7 @@ namespace NetWorkFrame
                             gameMgr.OnBomb();
                             break;
                         default:
-                            Log4U.LogInfo("No Such Packet, packet type is " + streamForProto);
+                            Log4U.LogInfo("No Such Packet, packet type is " + streamForProto + "MessageType = " + messageType);
                         break; 
                     }
                 }

@@ -57,6 +57,8 @@ namespace GameJamDemo
         public BasePlayer playerSelf;
         public BasePlayer playerOther;
 
+        private Vector3Int[] startPos = new Vector3Int[4]; 
+        private MoveDirection[] startDir = new MoveDirection[4]; 
         public void SetConfig(GameConfig config)
         {
             gameConfig = config;
@@ -66,12 +68,20 @@ namespace GameJamDemo
         {
             audioManager.Init();
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
-            CreaterPlayer();
             mainUI = Transform.FindObjectOfType<MainUI>();
             gameUI = Transform.FindObjectOfType<GameUI>();
             mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             initFOV = mainCamera.fieldOfView;
             NetworkManager.GetInstance().StartGame();
+
+            startPos[0] = new Vector3Int(0, 0, gameConfig.MapSize.z - 1);
+            startPos[1] = new Vector3Int(0, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1);
+            startPos[2] = new Vector3Int(gameConfig.MapSize.x - 1, 0, gameConfig.MapSize.z - 1);
+            startPos[3] = new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1);
+            startDir[0] = MoveDirection.Forward;
+            startDir[1] = MoveDirection.Left;
+            startDir[2] = MoveDirection.Right;
+            startDir[3] = MoveDirection.BackWard;
         }
 
         public void StartGame()
@@ -87,11 +97,14 @@ namespace GameJamDemo
             blockExplodeMgr.Release();
         }
 
-        public void CreaterPlayer()
+        public void CreaterSelfPlayer(int id)
         {
-            playerSelf = new PlayerSelf(new Vector3Int(0, 0, gameConfig.MapSize.z - 1), MoveDirection.Forward, gameConfig.player1Prfab);
-            if (openTwoPlayer)
-                playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), MoveDirection.BackWard, gameConfig.player2Prfab);
+            playerSelf = new PlayerSelf(startPos[id], startDir[id], gameConfig.player1Prfab);
+        }
+
+        public void CreaterOtherPlayer(int id)
+        {
+            playerOther = new PlayerOther(startPos[id], startDir[id], gameConfig.player2Prfab);
         }
 
         /// <summary>
@@ -101,7 +114,7 @@ namespace GameJamDemo
         {
             bool otherGameOver = false;
             bool selfGameOver = playerSelf.Move();
-            if (openTwoPlayer)
+            if (playerOther != null)
                 otherGameOver = playerOther.Move();
 
             if (selfGameOver || otherGameOver)
@@ -137,7 +150,7 @@ namespace GameJamDemo
         public void SetBomb()
         {
             playerSelf.SetBomb();
-            if (openTwoPlayer)
+            if (playerOther != null)
                 playerOther.SetBomb();
         }
 
@@ -182,7 +195,7 @@ namespace GameJamDemo
         public void UpdateAllHeight()
         {
             playerSelf.UpdateHeight();
-            if (openTwoPlayer)
+            if (playerOther != null)
                 playerOther.UpdateHeight();
             bombManager.UpdateAllBombHeight();
         }
@@ -223,6 +236,8 @@ namespace GameJamDemo
         public void OnStartGame(G2CGameBegin gameBegin)
         {
             selfId = gameBegin.YourId;
+            CreaterSelfPlayer(selfId);
+            CreaterOtherPlayer(1 - selfId);
             m_start = true;
         }
 

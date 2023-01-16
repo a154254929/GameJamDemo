@@ -112,7 +112,11 @@ namespace NetWorkFrame
                 Log4U.LogInfo("Client Connect Time Out...");
                 //CloseConnection();
             }
-            else Log4U.LogError("Client Connect Success");
+            else
+            {
+                Log4U.LogError("Client Connect Success");
+                GameManager.Instance.OnConnectSuccess();
+            }
 
 
             //_isKeepAlive = _socket.Connected;
@@ -125,7 +129,6 @@ namespace NetWorkFrame
             if (_socket.Connected)
             {
                 MessageDispatcher.GetInstance().DispatchMessageAsync((uint)EModelMessage.SOCKET_CONNECTED, null);
-                GameManager.Instance.OnConnectSuccess();
             }
         }
 

@@ -78,6 +78,18 @@ namespace GameJamDemo
                 case MoveDirection.Down:
                     nextMoveMent.Set(0, 0, -1);
                     break;
+                case MoveDirection.ForwardLeft:
+                    nextMoveMent.Set(-1, 1, 0);
+                    break;
+                case MoveDirection.ForwardRight:
+                    nextMoveMent.Set(1, 1, 0);
+                    break;
+                case MoveDirection.BackWardLeft:
+                    nextMoveMent.Set(-1, -1, 0);
+                    break;
+                case MoveDirection.BackWardRight:
+                    nextMoveMent.Set(1, -1, 0);
+                    break;
             }
 
             return curPos + nextMoveMent;
@@ -141,89 +153,45 @@ namespace GameJamDemo
         }
 
         /// <summary>
-        /// 爆炸，以参数位置为中心，十字形消除周围格子，随后更新所有玩家位置
+        /// 获取炸弹周围会被炸掉的格子
         /// </summary>
         /// <param name="pos"></param>
-        public void Explode(Vector3Int pos)
+        /// <returns></returns>
+        public List<Block> GetExplodedBlockList(Vector3Int pos)
         {
+            if (pos.z >= m_mapSize.z - 1)
+                return null;
+
+            List<Block> list = new List<Block>();
+            pos = pos + new Vector3Int(0, 0, 1);
+
             Block Left = GetBlock(GetNextPosition(pos, MoveDirection.Left));
             Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
             Block Forward = GetBlock(GetNextPosition(pos, MoveDirection.Forward));
             Block BackWard = GetBlock(GetNextPosition(pos, MoveDirection.BackWard));
-            Block Up = GetBlock(GetNextPosition(pos, MoveDirection.Up));
-            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
-            Block Self = GetBlock(pos);
+            Block ForwardLeft = GetBlock(GetNextPosition(pos, MoveDirection.ForwardLeft));
+            Block ForwardRight = GetBlock(GetNextPosition(pos, MoveDirection.ForwardRight));
+            Block BackWardLeft = GetBlock(GetNextPosition(pos, MoveDirection.BackWardLeft));
+            Block BackWardRight = GetBlock(GetNextPosition(pos, MoveDirection.BackWardRight));
 
             if (Left != null)
-            {
-                Left.SetExploded(false);
-            }
+                list.Add(Left);
             if (Right != null)
-            {
-                Right.SetExploded(false);
-            }
+                list.Add(Right);
             if (Forward != null)
-            {
-                Forward.SetExploded(false);
-            }
+                list.Add(Forward);
             if (BackWard != null)
-            {
-                BackWard.SetExploded(false);
-            }
-            if (Up != null)
-            {
-                Up.SetExploded(false);
-            }
-            if (Down != null)
-            {
-                //这个要延迟消失
-                Down.SetExploded(true);
-            }
-            if (Self != null)
-            {
-                Self.SetExploded(false);
-            }
-            GameManager.Instance.UpdateAllHeight();
-        }
+                list.Add(BackWard);
+            if (ForwardLeft != null)
+                list.Add(ForwardLeft);
+            if (ForwardRight != null)
+                list.Add(ForwardRight);
+            if (BackWardLeft != null)
+                list.Add(BackWardLeft);
+            if (BackWardRight != null)
+                list.Add(BackWardRight);
 
-        public void ChangeExplodeColor(Vector3Int pos)
-        {
-            Block Left = GetBlock(GetNextPosition(pos, MoveDirection.Left));
-            Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
-            Block Forward = GetBlock(GetNextPosition(pos, MoveDirection.Forward));
-            Block BackWard = GetBlock(GetNextPosition(pos, MoveDirection.BackWard));
-            Block Up = GetBlock(GetNextPosition(pos, MoveDirection.Up));
-            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
-            Block Self = GetBlock(pos);
-
-            if (Left != null)
-            {
-                Left.SetReadToBomb2();
-            }
-            if (Right != null)
-            {
-                Right.SetReadToBomb2();
-            }
-            if (Forward != null)
-            {
-                Forward.SetReadToBomb2();
-            }
-            if (BackWard != null)
-            {
-                BackWard.SetReadToBomb2();
-            }
-            if (Up != null)
-            {
-                Up.SetReadToBomb2();
-            }
-            if (Down != null)
-            {
-                Down.SetReadToBomb2();
-            }
-            if (Self != null)
-            {
-                Self.SetReadToBomb1();
-            }
+            return list;
         }
 
         /// <summary>

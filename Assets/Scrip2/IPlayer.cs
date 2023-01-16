@@ -15,6 +15,10 @@ namespace GameJamDemo
         Right,
         Up,
         Down,
+        ForwardLeft,
+        ForwardRight,
+        BackWardLeft,
+        BackWardRight,
     }
 
     public class BasePlayer
@@ -117,7 +121,7 @@ namespace GameJamDemo
         public void SetBomb()
         {
             bombManager.AddBomb(m_position);
-            mapManager.ChangeExplodeColor(m_position);
+            //mapManager.ChangeExplodeColor(m_position);
             //Debug.LogFormat("释放炸弹{0}", m_position);
         }
 

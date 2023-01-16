@@ -46,10 +46,14 @@ namespace GameJamDemo
             gameConfig = config;
         }
 
-        public void StartGame()
+        public void InitGame()
         {
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
             CreaterPlayer();
+        }
+
+        public void StartGame()
+        {
             m_start = true;
         }
 

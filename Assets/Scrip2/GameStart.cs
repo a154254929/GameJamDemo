@@ -12,7 +12,7 @@ namespace GameJamDemo
         void Start()
         {
             GameManager.Instance.SetConfig(config);
-            GameManager.Instance.StartGame();
+            GameManager.Instance.InitGame();
         }
 
         void Update()

@@ -14,6 +14,11 @@ namespace GameJamDemo
         private MapManager mapManager = GameManager.Instance.mapManager;
         private GameConfig gameConfig = GameManager.Instance.gameConfig;
 
+        //被立刻炸掉的格子
+        private List<Block> m_blockList;
+        //自己所在的格子
+        private Block m_selfBlock;
+
         //private GameObject m_obj;
         private float m_timer = 0;
         private Vector3Int m_position;
@@ -21,6 +26,16 @@ namespace GameJamDemo
         {
             //m_obj = GameObject.Instantiate(sourceObj);
             SetPos(position);
+            m_selfBlock = mapManager.GetBlock(position);
+            m_blockList = mapManager.GetExplodedBlockList(position);
+            m_selfBlock.SetReadToBomb1();
+            if (m_blockList != null)
+            {
+                for (int i = 0; i < m_blockList.Count; i++)
+                {
+                    m_blockList[i].SetReadToBomb2();
+                }
+            }
         }
 
         public void UpdateHeight()
@@ -53,7 +68,17 @@ namespace GameJamDemo
         /// </summary>
         public void Explode()
         {
-            mapManager.Explode(m_position);
+            //mapManager.Explode2(m_position);
+            if (m_blockList != null)
+            {
+                for (int i = 0; i < m_blockList.Count; i++)
+                {
+                    m_blockList[i].SetExploded(false);
+                }
+            }
+            
+            m_selfBlock.SetExploded(true);
+            GameManager.Instance.UpdateAllHeight();
             Release();
         }
 
@@ -62,6 +87,10 @@ namespace GameJamDemo
         /// </summary>
         public void Release()
         {
+            if (m_blockList != null)
+            {
+                m_blockList.Clear();
+            }
             m_timer = 0;
             //GameObject.Destroy(m_obj);
             //m_obj = null;

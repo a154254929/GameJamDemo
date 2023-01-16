@@ -14,7 +14,7 @@ Shader "Unlit/TestCube"
     SubShader
     {
         Blend SrcAlpha OneMinusSrcAlpha
-        Tags { "Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
+        Tags { "Queue" = "Transparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         LOD 100
 
         Pass

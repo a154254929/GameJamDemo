@@ -9,10 +9,14 @@ Shader "Unlit/Cube"
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0, 1.0)) = 1.0
         _ColorStrength("ColorStrength", Range(0, 1.0)) = 1.0
+        [Toggle]_ExplodState1("Explod State1", int) = 0
+        _ExplodColor1("Explod Color1", Color) = (1,1,1,1)
+        [Toggle]_ExplodState2("Explod State2", int) = 0
+        _ExplodColor2("Explod Color2", Color) = (1,1,1,1)
     }
     SubShader
     {
-        Tags {"Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
+        Tags {"Queue" = "Transparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
@@ -56,6 +60,11 @@ Shader "Unlit/Cube"
             float _Alpha;
             float _ColorStrength;
             fixed4 _StepColor;
+            int _ExplodState1;
+            fixed4 _ExplodColor1;
+            int _ExplodState2;
+            fixed4 _ExplodColor2;
+
 
             v2f vert (appdata v)
             {
@@ -74,9 +83,9 @@ Shader "Unlit/Cube"
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
                 fixed4 texColor = tex2D(_MainTex, i.uv);
-                fixed4 col = fixed4(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 col = fixed4(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a) * lerp(0.4, 1, step(0.4, lambert)), 1.0);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
-                return col;
+                return fixed4(lerp(lerp(col, _ExplodColor1, _ExplodState1), _ExplodColor2, _ExplodState2).rgb, _Alpha);
             }
             ENDCG
         }

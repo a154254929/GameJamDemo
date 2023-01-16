@@ -68,6 +68,20 @@ namespace GameJamDemo
             m_meshRender.SetPropertyBlock(prop);
         }
 
+        public void SetReadToBomb1()
+        {
+            m_meshRender.GetPropertyBlock(prop);
+            prop.SetInt("_ExplodState1", 1);
+            m_meshRender.SetPropertyBlock(prop);
+        }
+
+        public void SetReadToBomb2()
+        {
+            m_meshRender.GetPropertyBlock(prop);
+            prop.SetInt("_ExplodState2", 1);
+            m_meshRender.SetPropertyBlock(prop);
+        }
+
         public Block(int x, int y, int z, GameObject obj, Transform parent)
         {
             m_position.Set(x, y, z);
@@ -81,6 +95,8 @@ namespace GameJamDemo
                 GameManager gameMgr = GameManager.Instance;
                 prop.SetFloat("_Top", gameMgr.gameConfig.StepColors.Length);
                 prop.SetVector("_StepColor", (Vector4)gameMgr.gameConfig.StepColors[z]);
+                prop.SetInt("_ExplodState1", 0);
+                prop.SetInt("_ExplodState2", 0);
                 m_meshRender.SetPropertyBlock(prop);
             }
             m_isActive = true;

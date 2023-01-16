@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Protocol;
+using NetWorkFrame;
 
 namespace GameJamDemo
 {
@@ -25,9 +27,12 @@ namespace GameJamDemo
         public MapManager mapManager;
         public BombManager bombManager;
         public GameConfig gameConfig;
+        public SingletonManager singletonMgr;
         public BlockExplodeMgr blockExplodeMgr;
         public AudioManager audioManager;
 
+        private float HeartSendTime = 3.0f;
+        private float LastSendHeartTime = .0f;
         private bool openTwoPlayer = false;
 
         public GameManager()
@@ -55,11 +60,13 @@ namespace GameJamDemo
             audioManager.Init();
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
             CreaterPlayer();
+            NetworkManager.GetInstance().StartGame();
         }
 
         public void StartGame()
         {
-            m_start = true;
+            NetworkManager.GetInstance().SendPacket(MessageType.JoinGame);
+            //m_start = true;
         }
 
         public void StopGame()
@@ -120,6 +127,15 @@ namespace GameJamDemo
 
         public void Update()
         {
+            if (NetworkManager.GetInstance().IsConncted)
+            {
+                LastSendHeartTime += Time.deltaTime;
+                if (LastSendHeartTime >= HeartSendTime)
+                {
+                    NetworkManager.GetInstance().SendPacket(MessageType.Heart);
+                    LastSendHeartTime -= HeartSendTime;
+                }
+            }
             if (!m_start)
             {
                 return;
@@ -169,6 +185,29 @@ namespace GameJamDemo
                 playerSelf.SetDirection(MoveDirection.Forward);
             else if (v < 0)
                 playerSelf.SetDirection(MoveDirection.BackWard);
+
+        }
+
+        public void OnStartGame(G2CGameBegin gameBegin)
+        {
+            m_start = true;
+        }
+
+        public void OnFrameOperation(G2CFrameOperation frameOp)
+        {
+
+
+        }
+
+        public void OnMove()
+        {
+
+
+        }
+
+        public void OnBomb()
+        {
+
 
         }
     }

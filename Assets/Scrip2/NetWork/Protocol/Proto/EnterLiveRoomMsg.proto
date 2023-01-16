@@ -1,0 +1,24 @@
+package protocol;
+
+option java_package = "com.levr.live.protocol.Msg";
+
+message EnterLiveRoomReq{
+	required string liveId = 1; // 直播id
+	required string userId = 2; // 用户id
+}
+
+message EnterLiveRoomRsp{
+	enum ResultCode{
+    	SUCCESS = 0;
+		FAIL = 1;
+		NO_AUTHORITY = 2;
+	}
+	required ResultCode resultCode = 1;
+	optional string roomId = 2; // 直播房间id（liveId_roomNo）
+	repeated string userId = 3; // 直播房间内所有用户id
+	optional string resultMessage = 4;
+}
+
+message EnterLiveRoomSync{
+	repeated string userId = 1; // 直播房间内用户增加后的所有用户
+}

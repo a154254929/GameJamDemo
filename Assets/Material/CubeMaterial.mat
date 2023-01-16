@@ -100,16 +100,18 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineLimit: 0.73
-    - _OutlineWidth: 0.066
+    - _OutlineLimit: 0.8
+    - _OutlineWidth: 0.95
     - _Parallax: 0.02
     - _Rotation: 0
     - _S: 0.63
     - _ShadowIntensity: 0.458
     - _ShadowStepLimit: 0.4
     - _ShowIntensity: 0.905
+    - _Smooth: 64
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularLimit: 0.926
     - _SrcBlend: 1
     - _Step: 16.77
     - _TexStrength: 0.68
@@ -134,4 +136,5 @@ Material:
     - _ExplodColor1: {r: 1, g: 0.6868276, b: 0.4575472, a: 1}
     - _ExplodColor2: {r: 1, g: 0.3443396, b: 0.3443396, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

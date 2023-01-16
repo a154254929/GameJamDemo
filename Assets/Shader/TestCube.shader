@@ -9,6 +9,8 @@ Shader "Unlit/TestCube"
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0, 1.0)) = 1.0
+        _ShadowStepLimit("Shadow Step Limit", Range(0, 1.0)) = 0.4
+        _ShadowIntensity("Shadow Intensity", Range(0, 1)) = 0.4
         _ColorStrength("ColorStrength", Range(0, 1.0)) = 1.0
     }
     SubShader
@@ -53,6 +55,8 @@ Shader "Unlit/TestCube"
             float4 _MainTex_ST;
             float _Top;
             float _Alpha;
+            float _ShadowStepLimit;
+            float _ShadowIntensity;
             float _ColorStrength;
             fixed4 _MainColor;
 
@@ -73,7 +77,7 @@ Shader "Unlit/TestCube"
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
                 fixed4 texColor = tex2D(_MainTex, i.uv);
-                fixed4 col = fixed4(lerp(texColor.rgb, _MainColor, _ColorStrength * texColor.a) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 col = fixed4(lerp(texColor.rgb, _MainColor, _ColorStrength * texColor.a) * lerp(_ShadowIntensity, 1, step(_ShadowStepLimit, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }

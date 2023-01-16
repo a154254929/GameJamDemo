@@ -12,6 +12,8 @@ namespace GameJamDemo
         private MapManager manager = GameManager.Instance.mapManager;
         private GameObject m_obj;
         private Vector3Int m_position = Vector3Int.zero;
+        private MeshRenderer m_meshRender;
+        private MaterialPropertyBlock prop = new MaterialPropertyBlock();
 
         public bool IsActive
         {
@@ -38,7 +40,11 @@ namespace GameJamDemo
             }
             set
             {
-                m_obj.SetActive(!value);
+                float parency = value == true ? 0 : 1;
+                m_meshRender.GetPropertyBlock(prop);
+                prop.SetFloat("_Alpha", parency);
+                m_meshRender.SetPropertyBlock(prop);
+                //m_obj.SetActive(!value);
                 m_isTransparent = value;
             }
         }
@@ -53,6 +59,17 @@ namespace GameJamDemo
             if (obj != null)
             {
                 m_obj = GameObject.Instantiate(obj, createPos, Quaternion.identity, parent);
+                m_meshRender = m_obj.transform.Find("Block").GetComponent<MeshRenderer>();
+                m_meshRender.GetPropertyBlock(prop);
+                GameManager gameMgr = GameManager.Instance;
+                prop.SetFloat("_Top", gameMgr.gameConfig.StepColors.Length);
+                List<Vector4> vects = new List<Vector4>();
+                for (int i = 0; i < gameMgr.gameConfig.StepColors.Length; ++i)
+                {
+                    vects.Add((Vector4)gameMgr.gameConfig.StepColors[i]);
+                }
+                prop.SetVectorArray("_StepColors", vects);
+                m_meshRender.SetPropertyBlock(prop);
             }
             m_isActive = true;
             m_isTransparent = false;

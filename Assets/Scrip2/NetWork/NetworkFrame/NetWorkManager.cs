@@ -248,7 +248,6 @@ namespace NetWorkFrame
                 if (readedLen >= messageLen)
                 {
                     // TODO _receiveBuffer 里前messageLen是协议结构体解析后处理
-
                     IMessage rspPacket = UnPackTool.UnPack(type, 0, messageLen, _receiveBuffer);
                     if (rspPacket != null)
                     {
@@ -267,9 +266,7 @@ namespace NetWorkFrame
                     type = 0;
                     readedLen = 0;
                 }
-
             }
-
 
             BeginReceivePacket();
         }

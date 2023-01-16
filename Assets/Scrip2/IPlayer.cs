@@ -26,12 +26,13 @@ namespace GameJamDemo
         private MapManager mapManager = GameManager.Instance.mapManager;
         private BombManager bombManager = GameManager.Instance.bombManager;
         private GameConfig gameConfig = GameManager.Instance.gameConfig;
+        private AudioManager audioManager = GameManager.Instance.audioManager;
 
         private MoveDirection m_direction;
         private Vector3Int m_position;
         private GameObject m_obj;
         private Animator m_animator;
-
+        private AudioSource m_audioSource;
 
         protected bool IsSelf;
         public BasePlayer(Vector3Int initPos, MoveDirection initDir, GameObject obj)
@@ -41,6 +42,7 @@ namespace GameJamDemo
             m_animator = m_obj.GetComponent<Animator>();
             SetDirection(initDir);
             SetPos(m_position);
+            m_audioSource = m_obj.GetComponent<AudioSource>();
         }
 
         public void SetDirection(MoveDirection direction)
@@ -71,6 +73,16 @@ namespace GameJamDemo
             if (m_position != result)
             {
                 m_animator.SetTrigger("Jump");
+                if (IsSelf)
+                {
+                    if (m_position.z != result.z)
+                    {
+                        int fallAudioIndex = gameOver ? 1 : 0;
+                        m_audioSource.PlayOneShot(audioManager.GetFallAudio(fallAudioIndex));
+                    }      
+                    else
+                        m_audioSource.PlayOneShot(audioManager.GetJumpAudio(0));
+                }
             }
 
             SetPos(result);
@@ -113,6 +125,12 @@ namespace GameJamDemo
         {
             bool haveBlock;
             var targetPos = mapManager.GetActiveBlockPos(m_position, out haveBlock);
+            if (IsSelf && targetPos.z != m_position.z)
+            {
+                m_audioSource.PlayOneShot(audioManager.GetFallAudio(0));
+                //TODO 播放一个下坠动画
+            }
+
             SetPos(targetPos);
         }
 

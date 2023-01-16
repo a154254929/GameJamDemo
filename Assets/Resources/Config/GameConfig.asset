@@ -38,4 +38,4 @@ MonoBehaviour:
   PlayerJumpTimeInterval: 1
   PlayerReleaseBombTimeInterval: 3
   BombExplodTime: 1.5
-  BlockProtectTime: 0.5
+  BlockProtectTime: 1

@@ -13,7 +13,7 @@ namespace GameJamDemo
     {
         private MapManager mapManager = GameManager.Instance.mapManager;
         private GameConfig gameConfig = GameManager.Instance.gameConfig;
-
+        private AudioManager audioManager = GameManager.Instance.audioManager;
         //被立刻炸掉的格子
         private List<Block> m_blockList;
         //自己所在的格子
@@ -75,8 +75,10 @@ namespace GameJamDemo
                 {
                     m_blockList[i].SetExploded(false);
                 }
+                if (m_blockList.Count > 0)
+                    audioManager.PlayCommonSE(audioManager.GetExplodeAudio());
             }
-            
+
             m_selfBlock.SetExploded(true);
             GameManager.Instance.UpdateAllHeight();
             Release();

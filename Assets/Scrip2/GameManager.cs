@@ -26,6 +26,8 @@ namespace GameJamDemo
         public BombManager bombManager;
         public GameConfig gameConfig;
         public BlockExplodeMgr blockExplodeMgr;
+        public AudioManager audioManager;
+
         private bool openTwoPlayer = false;
 
         public GameManager()
@@ -33,6 +35,7 @@ namespace GameJamDemo
             mapManager = new MapManager();
             bombManager = new BombManager();
             blockExplodeMgr = new BlockExplodeMgr();
+            audioManager = new AudioManager();
         }
 
         private float m_timer = 0;
@@ -49,6 +52,7 @@ namespace GameJamDemo
 
         public void InitGame()
         {
+            audioManager.Init();
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
             CreaterPlayer();
         }

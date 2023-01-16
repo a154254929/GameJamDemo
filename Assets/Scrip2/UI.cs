@@ -9,6 +9,7 @@ namespace GameJamDemo
     {
         public Button startButton;
         public GameObject mainUI;
+        private AudioManager audioManager = GameManager.Instance.audioManager;
 
         void Start()
         {
@@ -19,6 +20,7 @@ namespace GameJamDemo
         {
             mainUI.SetActive(false);
             GameManager.Instance.StartGame();
+            audioManager.PlayBGM(1);
         }
     }
 }

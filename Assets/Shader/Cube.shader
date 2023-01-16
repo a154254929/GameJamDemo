@@ -8,12 +8,12 @@ Shader "Unlit/Cube"
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0, 1.0)) = 1.0
-        _TexStrength("TexStrength", Range(0, 1.0)) = 1.0
+        _ColorStrength("ColorStrength", Range(0, 1.0)) = 1.0
     }
     SubShader
     {
+        Tags {"Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Tags { "Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         LOD 100
 
         Pass
@@ -24,6 +24,7 @@ Shader "Unlit/Cube"
 
         Pass
         {
+            Tags {"LightMode" = "ForwardBase"}
             ZWrite On
             CGPROGRAM
             #pragma vertex vert
@@ -32,6 +33,7 @@ Shader "Unlit/Cube"
 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
+            #include "Lighting.cginc"
 
             struct appdata
             {
@@ -52,7 +54,7 @@ Shader "Unlit/Cube"
             float4 _MainTex_ST;
             float _Top;
             float _Alpha;
-            float _TexStrength;
+            float _ColorStrength;
             fixed4 _StepColor;
 
             v2f vert (appdata v)
@@ -68,10 +70,11 @@ Shader "Unlit/Cube"
             fixed4 frag(v2f i) : SV_Target
             {
                 // sample the texture
-                float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
+                fixed3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
-                fixed4 col = fixed4(lerp(_StepColor, tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 texColor = tex2D(_MainTex, i.uv);
+                fixed4 col = fixed4(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }
@@ -83,8 +86,10 @@ Shader "Unlit/Cube"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_fwdbase
 
             #include "UnityCG.cginc"
+            #include "AutoLight.cginc"
 
             struct appdata
             {

@@ -3,10 +3,7 @@ Shader "Unlit/Cube"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Top("_Top",  int) = 10
-        _H("H", Range(0,360)) = 224
-        _S("S", Range(0,1)) = 0.63
-        _V("V", Range(0,1)) = 1
+        _Top ("Top", int) = 10
         _OutlineWidth("Outline Width", Range(0.01, 1)) = 0.24
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
@@ -19,11 +16,11 @@ Shader "Unlit/Cube"
         Tags { "Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         LOD 100
 
-        /*Pass
+        Pass
         {
             ZWrite On
             ColorMask 0
-        }*/
+        }
 
         Pass
         {
@@ -53,71 +50,10 @@ Shader "Unlit/Cube"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _Top;
             float _Alpha;
-            float _TexStrength;;
-            int _Top;
-            float _H;
-            float _S;
-            float _V;
-
-            half3 RGBToHSV(half3 RGB)
-            {
-                half R = RGB.x, G = RGB.y, B = RGB.z;
-                half3 hsv;
-                half Max = max(R, max(G, B));
-                half Min = min(R, max(G, B));
-                if (R == Max)
-                {
-                    hsv.x = (G - B) / (Max - Min);
-                }
-                if (G == Max)
-                {
-                    hsv.x = 2 + (B - R) / (Max - Min);
-                }
-                if (B == Max)
-                {
-                    hsv.x = 4 + (R - G) / (Max - Min);
-                }
-                hsv.x = hsv.x * 60.0;
-                if (hsv.x < 0)
-                    hsv.x = hsv.x + 360;
-                hsv.z = Max;
-                hsv.y = (Max - Min) / Max;
-                return hsv;
-            }
-            half3 HSVToRGB(half3 HSV)
-            {
-                half R, G, B;
-                if (HSV.y == 0)
-                {
-                    R = G = B = HSV.z;
-                }
-                else
-                {
-                    HSV.x = HSV.x / 60.0;
-                    int i = (int)HSV.x;
-                    half f = HSV.x - (half)i;
-                    half a = HSV.z * (1 - HSV.y);
-                    half b = HSV.z * (1 - HSV.y * f);
-                    half c = HSV.z * (1 - HSV.y * (1 - f));
-                    switch (i)
-                    {
-                    case 0: R = HSV.z; G = c; B = a;
-                        break;
-                    case 1: R = b; G = HSV.z; B = a;
-                        break;
-                    case 2: R = a; G = HSV.z; B = c;
-                        break;
-                    case 3: R = a; G = b; B = HSV.z;
-                        break;
-                    case 4: R = c; G = a; B = HSV.z;
-                        break;
-                    default: R = HSV.z; G = a; B = b;
-                        break;
-                    }
-                }
-                return half3(R, G, B);
-            }
+            float _TexStrength;
+            fixed4 _StepColors[64];
 
             v2f vert (appdata v)
             {
@@ -135,7 +71,8 @@ Shader "Unlit/Cube"
                 float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
-                fixed4 col = fixed4(lerp(HSVToRGB(half3(_H * saturate(floor(i.pos.y) / _Top), _S, _V)), tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 stepColor = _StepColors[(int)floor(clamp(i.pos.y, 0, _Top))];
+                fixed4 col = fixed4(lerp(stepColor, tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }

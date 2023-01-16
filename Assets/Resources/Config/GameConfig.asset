@@ -27,7 +27,7 @@ MonoBehaviour:
   - {r: 0.6650944, g: 1, b: 0.92860436, a: 1}
   - {r: 0.6462264, g: 0.8720981, b: 1, a: 1}
   - {r: 0.8160377, g: 0.8391903, b: 1, a: 1}
-  BlockPrefab: {fileID: 7854161510853045, guid: dc36908bddec7484abc602a0d289b9d5,
+  BlockPrefab: {fileID: 7854161510853045, guid: bd0e5118195d7264bb9d692159b70b53,
     type: 3}
   BombPrefab: {fileID: 8217749815404813082, guid: 19b902ce8761f5e4793095704ea71364,
     type: 3}

@@ -267,6 +267,12 @@
  <Reference Include="unityplastic">
  <HintPath>E:/GameJamDemo/Library/PackageCache/com.unity.collab-proxy@1.14.12/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
  </Reference>
+ <Reference Include="DOTweenEditor">
+ <HintPath>E:/GameJamDemo/Assets/Plugin/DOTween/Editor/DOTweenEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>E:/GameJamDemo/Assets/Plugin/DOTween/DOTween.dll</HintPath>
+ </Reference>
  <Reference Include="nunit.framework">
  <HintPath>E:/GameJamDemo/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>

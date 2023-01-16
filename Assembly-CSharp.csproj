@@ -55,6 +55,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleAudio.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModulePhysics.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleSprite.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUI.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\Resources\Config\Script\MapSize.cs" />
      <Compile Include="Assets\Resources\Config\Script\MoveAudio.cs" />
      <Compile Include="Assets\Scrip2\Block.cs" />
@@ -75,6 +83,7 @@
      <Compile Include="Assets\Script\MoveDirection.cs" />
      <Compile Include="Assets\Script\PlayerSelf.cs" />
      <None Include="Assets\Shader\TestCube.shader" />
+     <None Include="Assets\Plugin\DOTween\readme.txt" />
      <None Include="Assets\Shader\Cube.shader" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity 2019.4.36f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -258,6 +267,9 @@
  </Reference>
  <Reference Include="UnityEditor">
  <HintPath>C:/Program Files/Unity 2019.4.36f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>E:/GameJamDemo/Assets/Plugin/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity 2019.4.36f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

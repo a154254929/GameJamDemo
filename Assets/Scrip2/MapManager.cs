@@ -229,6 +229,23 @@ namespace GameJamDemo
             }
             GameManager.Instance.Zoom(topLayerIndex, curLayer);
         }
+
+        /// <summary>
+        /// 重置所有格子的状态
+        /// </summary>
+        public void ResetAll()
+        {
+            for (int layer = 0; layer < m_blocks.GetLength(2); layer++)
+            {
+                for (int indexX = 0; indexX < m_blocks.GetLength(0); indexX++)
+                {
+                    for (int indexY = 0; indexY < m_blocks.GetLength(1); indexY++)
+                    {
+                        m_blocks[indexX, indexY, layer].Reset();
+                    }
+                }
+            }
+        }
     }
 }
 

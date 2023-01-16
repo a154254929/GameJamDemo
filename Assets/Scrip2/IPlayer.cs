@@ -43,14 +43,14 @@ namespace GameJamDemo
             m_obj = GameObject.Instantiate(obj);
             m_animator = m_obj.GetComponent<Animator>();
             SetDirection(initDir);
-            SetPos(m_position);
+            SetPos(m_position, true);
             m_audioSource = m_obj.GetComponent<AudioSource>();
         }
 
         public void SetDirection(MoveDirection direction)
         {
             m_direction = direction;
-            if (IsSelf)
+            if (IsSelf && !GameManager.Instance.SingleMode)
             {
                 C2GChangeDir dir = new C2GChangeDir();
                 dir.Dir = (int)m_direction;
@@ -103,7 +103,7 @@ namespace GameJamDemo
         /// 设置玩家位置
         /// </summary>
         /// <param name="pos"></param>
-        public void SetPos(Vector3Int pos)
+        public void SetPos(Vector3Int pos, bool forceMove = false)
         {
             m_position = pos;
             if (IsSelf)
@@ -114,6 +114,12 @@ namespace GameJamDemo
             var blockPos = block.GetObjTransPosition();
 
             var targetTransPos = blockPos + gameConfig.PlayerPosOffset;
+            if (forceMove)
+            {
+                m_obj.transform.position = targetTransPos;
+                return;
+            }
+
             if (Vector3.Distance(m_obj.transform.position, targetTransPos) > 0.2f)
             {
                 DOTween.To(() => m_obj.transform.position, r => m_obj.transform.position = r, targetTransPos, 0.4f);
@@ -137,7 +143,6 @@ namespace GameJamDemo
             if (IsSelf && targetPos.z != m_position.z)
             {
                 m_audioSource.PlayOneShot(audioManager.GetFallAudio(0));
-                //TODO 播放一个下坠动画
             }
 
             SetPos(targetPos);
@@ -149,12 +154,12 @@ namespace GameJamDemo
         public void SetBomb()
         {
             bombManager.AddBomb(m_position);
-            //mapManager.ChangeExplodeColor(m_position);
-            //Debug.LogFormat("释放炸弹{0}", m_position);
         }
 
         public void Release()
         {
+            m_animator = null;
+            m_audioSource = null;
             GameObject.Destroy(m_obj);
         }
     }

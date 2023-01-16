@@ -112,6 +112,18 @@ namespace GameJamDemo
         {
             return m_obj.transform.position;
         }
+
+        public void Reset()
+        {
+            m_isActive = true;
+            SetTransparent(1);
+            m_explodeTimer = 0;
+            m_meshRender.GetPropertyBlock(prop);
+            prop.SetInt("_ExplodState1", 0);
+            prop.SetInt("_ExplodState2", 0);
+            m_meshRender.SetPropertyBlock(prop);
+            particle.Stop();
+        }
     }
 
     /// <summary>

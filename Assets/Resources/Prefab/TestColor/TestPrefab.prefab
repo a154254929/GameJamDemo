@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5103172608995375117}
   m_Layer: 0
-  m_Name: BlockPrefab
+  m_Name: TestPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dc0c1c3360856534181f9d6abbd43601, type: 2}
+  - {fileID: 2100000, guid: 9f00884d8b040f840ab00390ba0a8903, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

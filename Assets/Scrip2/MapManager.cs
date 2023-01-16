@@ -156,23 +156,23 @@ namespace GameJamDemo
 
             if (Left != null)
             {
-                Left.IsActive = false;
+                Left.SetExploded(false);
             }
             if (Right != null)
             {
-                Right.IsActive = false;
+                Right.SetExploded(false);
             }
             if (Forward != null)
             {
-                Forward.IsActive = false;
+                Forward.SetExploded(false);
             }
             if (BackWard != null)
             {
-                BackWard.IsActive = false;
+                BackWard.SetExploded(false);
             }
             if (Up != null)
             {
-                Up.IsActive = false;
+                Up.SetExploded(false);
             }
             if (Down != null)
             {
@@ -181,27 +181,38 @@ namespace GameJamDemo
             }
             if (Self != null)
             {
-                Self.IsActive = false;
+                Self.SetExploded(false);
             }
             GameManager.Instance.UpdateAllHeight();
         }
 
         /// <summary>
-        /// 隐藏自己层数上层以上的格子
+        /// 隐藏格子，防止挡住玩家视线。
+        /// 半透明层数1
+        /// 透全明层数2
         /// </summary>
         /// <param name="layer"></param>
         public void HideUpLayer(int curLayer)
         {
             int topLayerIndex = m_blocks.GetLength(2) - 1;
             int bottomLayerIndex = curLayer + 2;
-
+            float alpha = 1;
             for (int layer = topLayerIndex; layer >= bottomLayerIndex; layer--)
             {
+                if (layer >= curLayer + 1)
+                {
+                    alpha = 0.1f;
+                }
+                if (layer >= curLayer + 3)
+                {
+                    alpha = 0;
+                }
+
                 for (int indexX = 0; indexX < m_blocks.GetLength(0); indexX++)
                 {
                     for (int indexY = 0; indexY < m_blocks.GetLength(1); indexY++)
                     {
-                        m_blocks[indexX, indexY, layer].IsTransparent = true;
+                        m_blocks[indexX, indexY, layer].SetTransparent(alpha);
                     }
                 }
             }

@@ -61,25 +61,12 @@ namespace GameJamDemo
         }
         private bool m_isActive = true;
 
-        public bool IsTransparent
+        public void SetTransparent(float alpha)
         {
-            get
-            {
-                return m_isTransparent;
-            }
-            set
-            {
-                float parency = value == true ? 0 : 1;
-                m_meshRender.GetPropertyBlock(prop);
-                prop.SetFloat("_Alpha", parency);
-                m_meshRender.SetPropertyBlock(prop);
-                //m_obj.SetActive(!value);
-                m_isTransparent = value;
-            }
+            m_meshRender.GetPropertyBlock(prop);
+            prop.SetFloat("_Alpha", alpha);
+            m_meshRender.SetPropertyBlock(prop);
         }
-
-        private bool m_isTransparent = false;//是否是透明的
-
 
         public Block(int x, int y, int z, GameObject obj, Transform parent)
         {
@@ -93,16 +80,10 @@ namespace GameJamDemo
                 m_meshRender.GetPropertyBlock(prop);
                 GameManager gameMgr = GameManager.Instance;
                 prop.SetFloat("_Top", gameMgr.gameConfig.StepColors.Length);
-                List<Vector4> vects = new List<Vector4>();
-                for (int i = 0; i < gameMgr.gameConfig.StepColors.Length; ++i)
-                {
-                    vects.Add((Vector4)gameMgr.gameConfig.StepColors[i]);
-                }
-                prop.SetVectorArray("_StepColors", vects);
+                prop.SetVector("_StepColor", (Vector4)gameMgr.gameConfig.StepColors[z]);
                 m_meshRender.SetPropertyBlock(prop);
             }
             m_isActive = true;
-            m_isTransparent = false;
         }
 
         public Vector3 GetObjTransPosition()
@@ -134,6 +115,7 @@ namespace GameJamDemo
                 {
                     m_blockList[i].SetExploded(false);
                     m_blockList.RemoveAt(i);
+                    GameManager.Instance.UpdateAllHeight();
                 }
             }
         }

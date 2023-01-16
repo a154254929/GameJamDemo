@@ -1,8 +1,9 @@
-Shader "Unlit/Cube"
+Shader "Unlit/TestCube"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _MainColor("Main Color", Color) = (1,1,1,1)
         _Top ("Top", int) = 10
         _OutlineWidth("Outline Width", Range(0.01, 1)) = 0.24
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
@@ -53,7 +54,7 @@ Shader "Unlit/Cube"
             float _Top;
             float _Alpha;
             float _TexStrength;
-            fixed4 _StepColor;
+            fixed4 _MainColor;
 
             v2f vert (appdata v)
             {
@@ -71,7 +72,7 @@ Shader "Unlit/Cube"
                 float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
-                fixed4 col = fixed4(lerp(_StepColor, tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 col = fixed4(lerp(_MainColor, tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }

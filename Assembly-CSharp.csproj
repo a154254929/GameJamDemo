@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -61,6 +61,94 @@
     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Plugin\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\BclHelpers.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\BufferExtension.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\BufferPool.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\CallbackAttributes.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Compiler\CompilerContext.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Compiler\CompilerDelegates.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Compiler\Local.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\DataFormat.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Extensible.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ExtensibleUtil.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\GlobalSuppressions.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Helpers.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\IExtensible.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\IExtension.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ImplicitFields.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\KeyValuePairProxy.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\AttributeMap.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\BasicList.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\CallbackSet.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\MetaType.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\RuntimeTypeModel.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\SubType.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\TypeFormatEventArgs.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\TypeModel.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Meta\ValueMember.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\NetObjectCache.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\PrefixStyle.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Properties\AssemblyInfo.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoContractAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoConverterAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoEnumAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoException.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoIgnoreAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoIncludeAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoMemberAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoReader.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ProtoWriter.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\SerializationContext.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ArrayDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\BlobSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\BooleanSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ByteSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\CharSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\CompiledSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\DateTimeSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\DecimalSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\DefaultValueDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\DoubleSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\EnumSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\FieldDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\GuidSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\IProtoSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\IProtoTypeSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ISerializerProxy.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ImmutableCollectionDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\Int16Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\Int32Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\Int64Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\KeyValuePairDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ListDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\MemberSpecifiedDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\NetObjectSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\NullDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ParseableSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\PropertyDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\ProtoDecoratorBase.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\SByteSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\SingleSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\StringSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\SubItemSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\SurrogateSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\SystemTypeSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\TagDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\TimeSpanSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\TupleSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\TypeSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\UInt16Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\UInt32Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\UInt64Serializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\Serializers\UriDecorator.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ServiceModel\ProtoBehaviorAttribute.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ServiceModel\ProtoBehaviorExtensionElement.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ServiceModel\ProtoEndpointBehavior.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ServiceModel\ProtoOperationBehavior.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\ServiceModel\XmlProtoSerializer.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\SubItemToken.cs" />
+    <Compile Include="Assets\Plugin\protobuf-net\WireType.cs" />
     <Compile Include="Assets\Resources\Config\Script\MapSize.cs" />
     <Compile Include="Assets\Resources\Config\Script\MoveAudio.cs" />
     <Compile Include="Assets\Scrip2\AudioManager.cs" />
@@ -73,20 +161,48 @@
     <Compile Include="Assets\Scrip2\IPlayer.cs" />
     <Compile Include="Assets\Scrip2\MainUI.cs" />
     <Compile Include="Assets\Scrip2\MapManager.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\GlobalVars.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\IOTool.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\Log4U.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\MessageDispatcher\EMessageType.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\MessageDispatcher\MessageDispatcher.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\NetWorkManager.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\UnPackTool.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\singleton.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\tools\Format\DateFormatTool.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\NetworkFrame\tools\Format\MiniConverter.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\ChatData.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\EnterLiveHallMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\EnterLiveRoomMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\ExitLiveHallMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\ExitLiveRoomMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\KeepAliveMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\Message.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\MovePositionMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\OffLineMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\ProtoHead.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\ReceiveChatMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\SendChatMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\TalkingMsg.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\UserData.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\Protocol\test.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\ReceivePacket.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\SendPacket.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\SingletonManager.cs" />
+    <Compile Include="Assets\Scrip2\NetWork\StartLiveRoom.cs" />
     <Compile Include="Assets\Scrip2\PlayerOther.cs" />
     <Compile Include="Assets\Scrip2\PlayerSelf.cs" />
-    <Compile Include="Assets\Script\AutoReleaseBomb.cs" />
-    <Compile Include="Assets\Script\Blocks.cs" />
-    <Compile Include="Assets\Script\Bomb.cs" />
-    <Compile Include="Assets\Script\GameManager.cs" />
-    <Compile Include="Assets\Script\IPlayer.cs" />
-    <Compile Include="Assets\Script\MapManager.cs" />
-    <Compile Include="Assets\Script\MoveDirection.cs" />
-    <Compile Include="Assets\Script\PlayerSelf.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugin\protobuf-net\Web\TODO.txt" />
     <None Include="Assets\Shader\TestCube.shader" />
+    <None Include="Assets\Scrip2\NetWork\note.txt" />
+    <None Include="Assets\Plugin\Libiaries\Google.Protobuf.dll" />
+    <None Include="Assets\Plugin\Libiaries\Google.Protobuf.xml" />
+    <None Include="Assets\Plugin\Libiaries\System.Buffers.dll" />
+    <None Include="Assets\Plugin\Libiaries\System.Runtime.CompilerServices.Unsafe.dll" />
     <None Include="Assets\Plugin\DOTween\DOTween.XML" />
+    <None Include="Assets\Plugin\Libiaries\System.Memory.dll" />
     <None Include="Assets\Plugin\DOTween\readme.txt" />
     <None Include="Assets\Resources\开发大冒险特效\zhengque\Alpha Double.shader" />
     <None Include="Assets\Plugin\DOTween\DOTween.dll" />
@@ -278,6 +394,18 @@
     </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Plugin\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>Assets\Plugin\Libiaries\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>Assets\Plugin\Libiaries\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>Assets\Plugin\Libiaries\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Assets\Plugin\Libiaries\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity 2019.4.36f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>

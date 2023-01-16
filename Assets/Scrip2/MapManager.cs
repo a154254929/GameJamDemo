@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GameJamDemo
 {
@@ -10,10 +11,13 @@ namespace GameJamDemo
     public class MapManager
     {
         private Block[,,] m_blocks;
-        private Vector3 mapSize;
-        private int[,] mapHeight;
-        /// 方块是否下落
-        private bool isBlockDrop = false;
+        private Vector3Int m_mapSize;
+        private GameObject m_mapRoot;
+
+        public Transform GetRootTramsform()
+        {
+            return m_mapRoot.transform;
+        }
         /// <summary>
         /// 创建地图
         /// </summary>
@@ -21,35 +25,36 @@ namespace GameJamDemo
         /// <param name="y">宽</param>
         /// <param name="z">高</param>
         /// <param name="obj">模型</param>
-        public void CreateMap(int x, int y, int z, GameObject obj)
+        public void CreateMap(Vector3Int mapSize, GameObject obj)
         {
-            mapSize.Set(x, y, z);
-            m_blocks = new Block[x, y, z];
+            m_mapRoot = new GameObject("Map");
+            m_mapSize = mapSize;
+            m_blocks = new Block[m_mapSize.x, m_mapSize.y, m_mapSize.z];
             for (int layer = 0; layer < m_blocks.GetLength(2); layer++)
             {
-                for (int indexX = 0; indexX < m_blocks.GetLength(1); indexX++)
+                for (int indexX = 0; indexX < m_blocks.GetLength(0); indexX++)
                 {
-                    for (int indexY = 0; indexY < m_blocks.GetLength(2); indexY++)
+                    for (int indexY = 0; indexY < m_blocks.GetLength(1); indexY++)
                     {
-                        m_blocks[indexX, indexY, layer] = new Block(indexX, indexY, layer, obj);
-                        mapHeight[indexX, indexY] = layer;
+                        m_blocks[indexX, indexY, layer] = new Block(indexX, indexY, layer, obj, m_mapRoot.transform);
                     }
                 }
             }
         }
 
-        public Block GetBlock(int x, int y, int z)
+        public Block GetBlock(Vector3Int pos)
         {
-            return m_blocks[x, y, z];
-        }
-        public Block GetBlock(Vector3 pos)
-        {
-            return m_blocks[(int)pos.x, (int)pos.y, (int)pos.z];
+            if (IsOutBound(pos))
+            {
+                return null;
+            }
+
+            return m_blocks[pos.x, pos.y, pos.z];
         }
 
-        public Vector3 TryMove(Vector3 pos, MoveDirection direction)
+        public Vector3Int GetNextPosition(Vector3Int curPos, MoveDirection direction)
         {
-            Vector3 nextMoveMent = Vector3.zero;
+            Vector3Int nextMoveMent = Vector3Int.zero;
             //判断是否可以移动，朝当前的方向移动一步
             switch (direction)
             {
@@ -69,60 +74,75 @@ namespace GameJamDemo
                     break;
             }
 
-            Vector3 nextPosition = pos + nextMoveMent;
-            //判断目标位置是否合法
-            bool nextPosValid = true;
-            //如果方块会自动下落
-            if (isBlockDrop)
-            {
-                //高度小于目标点
-                if (GetHeight(pos.x, pos.y) < GetHeight(nextPosition.x, nextPosition.y))
-                {
-                    nextPosValid = false;
-                }
-            }
-            else nextPosValid = GetBlock((int)nextPosition.x, (int)nextPosition.y, (int)nextPosition.z).IsActive;
-            //超出范围
+            return curPos + nextMoveMent;
+        }
+
+        public Vector3Int TryMove(Vector3Int curPos, MoveDirection direction, out bool gameOver)
+        {
+            gameOver = false;
+            Vector3Int nextPosition = GetNextPosition(curPos, direction);
+            Vector3Int result = nextPosition;
+            //是否超出边界
             if (IsOutBound(nextPosition))
             {
-                nextPosValid = false;
+                result = curPos;
+            }
+            //目标位置上方没有物体才能移动
+            Vector3Int nextAbovePos = nextPosition + new Vector3Int(0, 0, 1);
+            if (GetBlock(nextAbovePos) != null && GetBlock(nextAbovePos).IsActive)
+            {
+                result = curPos;
+            }
+            //计算目标点的高度
+            bool haveBlock = true;
+            result = GetActiveBlockPos(result, out haveBlock);
+            if (!haveBlock)
+            {
+                gameOver = true;
             }
 
-            if (nextPosValid)
-                return nextPosition;
-            else
-                return pos;
+            return result;
         }
 
         /// <summary>
-        /// 根据二维坐标，获取高度
+        /// 在指定位置从上到下找一个显示的方块的位置
         /// </summary>
         /// <returns></returns>
-        public int GetHeight(float x, float y)
+        public Vector3Int GetActiveBlockPos(Vector3Int pos, out bool haveBlock)
         {
-            return mapHeight[(int)x, (int)y];
+            for (int layer = pos.z; layer >= 0; layer--)
+            {
+                if (m_blocks[pos.x, pos.y, layer].IsActive)
+                {
+                    haveBlock = true;
+                    return new Vector3Int(pos.x, pos.y, layer);
+                }
+            }
+
+            haveBlock = false;
+            return new Vector3Int(pos.x, pos.y, 0);
         }
 
         /// <summary>
         /// 是否查出范围
         /// </summary>
         /// <returns></returns>
-        public bool IsOutBound(Vector3 targetPos)
+        public bool IsOutBound(Vector3Int targetPos)
         {
-            return targetPos.x < 0 || targetPos.x >= mapSize.x||
-                targetPos.y < 0 || targetPos.y >= mapSize.y||
-                targetPos.z < 0 || targetPos.z >= mapSize.z;
+            return targetPos.x < 0 || targetPos.x >= m_mapSize.x ||
+                targetPos.y < 0 || targetPos.y >= m_mapSize.y ||
+                targetPos.z < 0 || targetPos.z >= m_mapSize.z;
         }
 
         /// <summary>
         /// 爆炸，以参数位置为中心，十字形消除周围格子，随后更新所有玩家位置
         /// </summary>
         /// <param name="pos"></param>
-        public void Explode(Vector3 pos)
+        public void Explode(Vector3Int pos)
         {
-            Block Left = GetBlock(TryMove(pos, MoveDirection.Left));
-            Block Right = GetBlock(TryMove(pos, MoveDirection.Right));
-            Block Down = GetBlock(TryMove(pos, MoveDirection.Down));
+            Block Left = GetBlock(GetNextPosition(pos, MoveDirection.Left));
+            Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
+            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
 
             if (Left != null)
             {

@@ -118,17 +118,17 @@ namespace GameJamDemo
 
             m_timer += Time.deltaTime;
             m_bombTiemr += Time.deltaTime;
-            if (m_timer >= 1)
+            if (m_timer >= gameConfig.PlayerJumpTimeInterval)
             {
                 Step();
                 //m_timer = 0;
-                m_timer -= 1;
+                m_timer -= gameConfig.PlayerJumpTimeInterval;
             }
-            if (m_bombTiemr >= 3)
+            if (m_bombTiemr >= gameConfig.PlayerReleaseBombTimeInterval)
             {
                 SetBomb();
                 //m_bombTiemr = 0;
-                m_bombTiemr -= 3;
+                m_bombTiemr -= gameConfig.PlayerReleaseBombTimeInterval;
             }
         }
 

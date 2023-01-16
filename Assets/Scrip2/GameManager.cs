@@ -39,6 +39,7 @@ namespace GameJamDemo
         private float LastSendHeartTime = .0f;
         private bool openTwoPlayer = false;
         private float initFOV;
+        private bool readyToBegin = false;
 
         private int selfId;
 
@@ -48,6 +49,7 @@ namespace GameJamDemo
             bombManager = new BombManager();
             blockExplodeMgr = new BlockExplodeMgr();
             audioManager = new AudioManager();
+            readyToBegin = false;
         }
 
         private float m_timer = 0;
@@ -165,6 +167,14 @@ namespace GameJamDemo
                     LastSendHeartTime -= HeartSendTime;
                 }
             }
+            if (readyToBegin)
+            {
+                Debug.LogWarning(selfId);
+                CreaterSelfPlayer(selfId);
+                CreaterOtherPlayer(1 - selfId);
+                m_start = true;
+                readyToBegin = false;
+            }
             if (!m_start)
             {
                 return;
@@ -236,9 +246,7 @@ namespace GameJamDemo
         public void OnStartGame(G2CGameBegin gameBegin)
         {
             selfId = gameBegin.YourId;
-            CreaterSelfPlayer(selfId);
-            CreaterOtherPlayer(1 - selfId);
-            m_start = true;
+            readyToBegin = true;
         }
 
         public void OnFrameOperation(G2CFrameOperation frameOp)

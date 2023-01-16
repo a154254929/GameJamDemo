@@ -365,7 +365,7 @@ namespace NetWorkFrame
             try
             {
                 MemoryStream streamForProto = new MemoryStream();
-                Serializer.Serialize<T>(streamForProto, packet);
+                packet.WriteTo(streamForProto);
                 char bodylen = (char)streamForProto.Length;
                 byte[] bufferSizeBytes = MiniConverter.Int8ToBytes(bodylen);
 

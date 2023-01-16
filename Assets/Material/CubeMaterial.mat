@@ -97,8 +97,8 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineLimit: 2.28
-    - _OutlineWidth: 0.121
+    - _OutlineLimit: 1.41
+    - _OutlineWidth: 0.066
     - _Parallax: 0.02
     - _Rotation: 0
     - _S: 0.63
@@ -106,7 +106,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Step: 16.77
-    - _TexStrength: 0
+    - _TexStrength: 1
     - _Top: 1
     - _TotalStep: 10
     - _UVSec: 0

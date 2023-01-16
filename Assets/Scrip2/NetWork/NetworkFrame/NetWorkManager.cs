@@ -232,8 +232,8 @@ namespace NetWorkFrame
             {
                 if (readedLen >= 2)
                 {
-                    type = (MessageType)MiniConverter.BytesToInt8(_receiveBuffer, HEAD_SIZE * 0);
-                    messageLen = (int)MiniConverter.BytesToInt8(_receiveBuffer,  HEAD_SIZE * 1);
+                    type = (MessageType)_receiveBuffer[HEAD_SIZE * 0];
+                    messageLen = (int)_receiveBuffer[HEAD_SIZE * 1];
                     if (messageLen == 0)
                     {
                         // TODO 此时有一个type的消息过来、没有内容

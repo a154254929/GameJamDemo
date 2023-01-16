@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: CubeMaterial
   m_Shader: {fileID: 4800000, guid: 8f834786a8f4cb14e83616176f25256b, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _EXPLODSTATE1_ON _EXPLODSTATE2_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -90,6 +90,8 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _ExplodState1: 1
+    - _ExplodState2: 1
     - _Exposure: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -103,6 +105,9 @@ Material:
     - _Parallax: 0.02
     - _Rotation: 0
     - _S: 0.63
+    - _ShadowIntensity: 0.458
+    - _ShadowStepLimit: 0.4
+    - _ShowIntensity: 0.905
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -126,5 +131,7 @@ Material:
     - _ColorStep8: {r: 1, g: 1, b: 1, a: 1}
     - _ColorStep9: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ExplodColor1: {r: 1, g: 0.6868276, b: 0.4575472, a: 1}
+    - _ExplodColor2: {r: 1, g: 0.3443396, b: 0.3443396, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

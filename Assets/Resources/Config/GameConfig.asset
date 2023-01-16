@@ -35,3 +35,5 @@ MonoBehaviour:
     type: 3}
   player2Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
     type: 3}
+  PlayerJumpTimeInterval: 1
+  PlayerReleaseBombTimeInterval: 3

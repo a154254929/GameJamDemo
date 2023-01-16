@@ -74,6 +74,7 @@
      <Compile Include="Assets\Script\MapManager.cs" />
      <Compile Include="Assets\Script\MoveDirection.cs" />
      <Compile Include="Assets\Script\PlayerSelf.cs" />
+     <None Include="Assets\Shader\TestCube.shader" />
      <None Include="Assets\Shader\Cube.shader" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity 2019.4.36f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

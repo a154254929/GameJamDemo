@@ -241,7 +241,6 @@ namespace NetWorkFrame
                         type = 0;
                     }
                     readedLen = 0;
-                    Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
                 }
             }
             else
@@ -267,7 +266,6 @@ namespace NetWorkFrame
                     messageLen = 0;
                     type = 0;
                     readedLen = 0;
-                    Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
                 }
 
             }

@@ -13,7 +13,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2116f47e3a0c91646872932855dc9d60, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -84,6 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -96,8 +97,8 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineLimit: 2.23
-    - _OutlineWidth: 0.132
+    - _OutlineLimit: 2.28
+    - _OutlineWidth: 0.121
     - _Parallax: 0.02
     - _Rotation: 0
     - _S: 0.63
@@ -105,13 +106,24 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Step: 16.77
-    - _Top: 10
+    - _TexStrength: 0.603
+    - _Top: 1
     - _TotalStep: 10
     - _UVSec: 0
     - _V: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.37254906, g: 0.7176472, b: 1, a: 1}
+    - _ColorStep1: {r: 1, g: 0, b: 0, a: 1}
+    - _ColorStep10: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorStep2: {r: 0.2569139, g: 1, b: 0, a: 1}
+    - _ColorStep3: {r: 1, g: 0.6101179, b: 0, a: 1}
+    - _ColorStep4: {r: 0.14929116, g: 0.5660378, b: 0, a: 1}
+    - _ColorStep5: {r: 0.3915094, g: 0.64196795, b: 1, a: 1}
+    - _ColorStep6: {r: 1, g: 0.5801887, b: 0.5801887, a: 1}
+    - _ColorStep7: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorStep8: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorStep9: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

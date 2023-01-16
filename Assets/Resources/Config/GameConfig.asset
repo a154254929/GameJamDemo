@@ -12,10 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e5885a750b0ec4cabe909a66a4168b, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  IP: 
-  port: 0
+  IP: 192.168.16.70
+  port: 3020
   MapSize: {x: 5, y: 5, z: 8}
   PlayerPosOffset: {x: 0, y: 0.5, z: 0}
+  StepColors:
+  - {r: 1, g: 0.3537736, b: 0.4188328, a: 1}
+  - {r: 1, g: 0.504717, b: 0.504717, a: 1}
+  - {r: 1, g: 0.6688744, b: 0.48584908, a: 1}
+  - {r: 1, g: 0.9633179, b: 0.5330188, a: 1.8143371e+31}
+  - {r: 0.82201564, g: 1, b: 0.5707547, a: 1}
+  - {r: 0.6239884, g: 1, b: 0.5613208, a: 1}
+  - {r: 0.6839622, g: 1, b: 0.8339275, a: 1}
+  - {r: 0.6650944, g: 1, b: 0.92860436, a: 1}
+  - {r: 0.6462264, g: 0.8720981, b: 1, a: 1}
+  - {r: 0.8160377, g: 0.8391903, b: 1, a: 1}
   BlockPrefab: {fileID: 7854161510853045, guid: dc36908bddec7484abc602a0d289b9d5,
     type: 3}
   BombPrefab: {fileID: 8217749815404813082, guid: 19b902ce8761f5e4793095704ea71364,

@@ -20,6 +20,8 @@ namespace GameJamDemo
         public Vector3Int MapSize = new Vector3Int(8, 8, 8);
         //玩家地图方块上的位置偏移
         public Vector3 PlayerPosOffset;
+        //地图颜色阶数
+        public Color[] StepColors;
 
         //地图方块模型
         public GameObject BlockPrefab;

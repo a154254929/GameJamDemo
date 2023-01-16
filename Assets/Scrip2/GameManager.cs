@@ -26,6 +26,7 @@ namespace GameJamDemo
         public BombManager bombManager;
         public GameConfig gameConfig;
         public BlockExplodeMgr blockExplodeMgr;
+        private bool openTwoPlayer = false;
 
         public GameManager()
         {
@@ -67,7 +68,8 @@ namespace GameJamDemo
         public void CreaterPlayer()
         {
             playerSelf = new PlayerSelf(new Vector3Int(0, 0, gameConfig.MapSize.z - 1), MoveDirection.Forward, gameConfig.player1Prfab);
-            //playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), MoveDirection.BackWard, gameConfig.player2Prfab);
+            if (openTwoPlayer)
+                playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), MoveDirection.BackWard, gameConfig.player2Prfab);
         }
 
         /// <summary>
@@ -75,9 +77,10 @@ namespace GameJamDemo
         /// </summary>
         public void Step()
         {
-            bool selfGameOver = playerSelf.Move();
-            //bool otherGameOver = playerOther.Move();
             bool otherGameOver = false;
+            bool selfGameOver = playerSelf.Move();
+            if (openTwoPlayer)
+                otherGameOver = playerOther.Move();
 
             if (selfGameOver || otherGameOver)
             {
@@ -107,7 +110,8 @@ namespace GameJamDemo
         public void SetBomb()
         {
             playerSelf.SetBomb();
-            //playerOther.SetBomb();
+            if (openTwoPlayer)
+                playerOther.SetBomb();
         }
 
         public void Update()
@@ -142,7 +146,8 @@ namespace GameJamDemo
         public void UpdateAllHeight()
         {
             playerSelf.UpdateHeight();
-            //playerOther.UpdateHeight();
+            if (openTwoPlayer)
+                playerOther.UpdateHeight();
             bombManager.UpdateAllBombHeight();
         }
 

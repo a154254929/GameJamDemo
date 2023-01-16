@@ -39,7 +39,7 @@ namespace GameJamDemo
             m_position = initPos;
             m_obj = GameObject.Instantiate(obj);
             m_animator = m_obj.GetComponent<Animator>();
-            m_direction = initDir;
+            SetDirection(initDir);
             SetPos(m_position);
         }
 
@@ -84,8 +84,11 @@ namespace GameJamDemo
         /// <param name="pos"></param>
         public void SetPos(Vector3Int pos)
         {
-            m_position = pos; 
-            mapManager.HideUpLayer(pos.z);
+            m_position = pos;
+            if (IsSelf)
+            {
+                mapManager.HideUpLayer(pos.z);
+            }
             var block = mapManager.GetBlock(pos);
             var blockPos = block.GetObjTransPosition();
 
@@ -94,8 +97,6 @@ namespace GameJamDemo
             {
                 DOTween.To(() => m_obj.transform.position, r => m_obj.transform.position = r, targetTransPos, 0.4f);
             }
-            
-            //m_obj.transform.position = targetTransPos;
         }
 
         public Vector3 GetTargetTransPos(Vector3Int pos)

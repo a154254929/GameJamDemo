@@ -17,6 +17,7 @@ namespace GameJamDemo
         private MaterialPropertyBlock prop = new MaterialPropertyBlock();
         public float m_explodeTimer = 0;
         private float BlockProtectTime = GameManager.Instance.gameConfig.BlockProtectTime;
+        private ParticleSystem particle;
 
         /// <summary>
         /// 被炸掉
@@ -30,6 +31,7 @@ namespace GameJamDemo
             }
             else
             {
+                particle.Play();
                 IsActive = false;
             }
         }
@@ -52,7 +54,8 @@ namespace GameJamDemo
                 if (m_obj != null)
                 {
                     m_isActive = value;
-                    m_obj.SetActive(value);
+                    //m_obj.SetActive(value);
+                    SetTransparent(0);
                 }
             }
             get
@@ -90,6 +93,8 @@ namespace GameJamDemo
             if (obj != null)
             {
                 m_obj = GameObject.Instantiate(obj, createPos, Quaternion.identity, parent);
+                particle = m_obj.GetComponentInChildren<ParticleSystem>();
+
                 //shader参数
                 m_meshRender = m_obj.transform.Find("Block").GetComponent<MeshRenderer>();
                 m_meshRender.GetPropertyBlock(prop);
@@ -131,6 +136,7 @@ namespace GameJamDemo
                 if (m_blockList[i].ExpireExlopdeTime())
                 {
                     m_blockList[i].SetExploded(false);
+                    GameManager.Instance.audioManager.PlayCommonSE(GameManager.Instance.audioManager.GetExplodeAudio());
                     m_blockList.RemoveAt(i);
                     GameManager.Instance.UpdateAllHeight();
                 }

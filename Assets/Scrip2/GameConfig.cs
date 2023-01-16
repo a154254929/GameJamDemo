@@ -31,6 +31,15 @@ namespace GameJamDemo
         public GameObject player1Prfab;
         //玩家2模型
         public GameObject player2Prfab;
+
+        //玩家跳跃移动间隔
+        public float PlayerJumpTimeInterval;
+        //玩家释放炸弹间隔
+        public float PlayerReleaseBombTimeInterval;
+        //炸弹爆炸延时
+        public float BombExplodTime;
+        //下层格子保护机制时间
+        public float BlockProtectTime;
     }
 }
 

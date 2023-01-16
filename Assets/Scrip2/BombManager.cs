@@ -45,7 +45,7 @@ namespace GameJamDemo
         public bool IsExpire()
         {
             m_timer += Time.deltaTime;
-            return m_timer >= 3;
+            return m_timer >= gameConfig.BombExplodTime;
         }
 
         /// <summary>

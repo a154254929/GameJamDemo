@@ -4,8 +4,8 @@ Shader "Unlit/Cube"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Top("Top", int) = 10
-        _OutlineWidth("Outline Width", Range(0.01, 1)) = 0.24
-        _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
+        _OutlineWidth("Outline Width", float) = 0.24
+        _OutlineLimit("Outline Limit", float) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0, 1.0)) = 1.0
         _ShadowStepLimit("Shadow Step Limit", Range(0, 1.0)) = 0.4

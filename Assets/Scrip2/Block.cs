@@ -16,6 +16,7 @@ namespace GameJamDemo
         private MeshRenderer m_meshRender;
         private MaterialPropertyBlock prop = new MaterialPropertyBlock();
         public float m_explodeTimer = 0;
+        private float BlockProtectTime = GameManager.Instance.gameConfig.BlockProtectTime;
 
         /// <summary>
         /// 被炸掉
@@ -40,7 +41,7 @@ namespace GameJamDemo
         public bool ExpireExlopdeTime()
         {
             m_explodeTimer += Time.deltaTime;
-            return m_explodeTimer > 1.5f;
+            return m_explodeTimer > BlockProtectTime;
         }
 
 

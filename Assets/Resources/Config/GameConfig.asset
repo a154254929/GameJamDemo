@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e5885a750b0ec4cabe909a66a4168b, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  IP: 
-  port: 0
+  IP: 192.168.16.70
+  port: 3020
   MapSize: {x: 5, y: 5, z: 8}
   PlayerPosOffset: {x: 0, y: 0.5, z: 0}
   BlockPrefab: {fileID: 7854161510853045, guid: dc36908bddec7484abc602a0d289b9d5,

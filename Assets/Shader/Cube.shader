@@ -11,6 +11,7 @@ Shader "Unlit/Cube"
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0, 1.0)) = 1.0
+        _TexStrength("TexStrength", Range(0, 1.0)) = 1.0
     }
     SubShader
     {
@@ -53,6 +54,7 @@ Shader "Unlit/Cube"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Alpha;
+            float _TexStrength;;
             int _Top;
             float _H;
             float _S;
@@ -133,7 +135,7 @@ Shader "Unlit/Cube"
                 float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
-                fixed4 col = fixed4(HSVToRGB(half3(_H * saturate(floor(i.pos.y) / _Top), _S, _V)) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
+                fixed4 col = fixed4(lerp(HSVToRGB(half3(_H * saturate(floor(i.pos.y) / _Top), _S, _V)), tex2D(_MainTex, i.uv).rgb, _TexStrength) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }

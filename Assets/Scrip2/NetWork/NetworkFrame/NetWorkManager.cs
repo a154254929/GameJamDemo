@@ -241,6 +241,7 @@ namespace NetWorkFrame
                         type = 0;
                     }
                     readedLen = 0;
+                    Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
                 }
             }
             else
@@ -263,15 +264,14 @@ namespace NetWorkFrame
                             rsp = rspPacket,
                         };
                     }
+                    messageLen = 0;
+                    type = 0;
+                    readedLen = 0;
+                    Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
                 }
-                messageLen = 0;
-                type = 0;
-                readedLen = 0;
+
             }
 
-
-
-            Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
 
             BeginReceivePacket();
         }

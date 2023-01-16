@@ -186,6 +186,46 @@ namespace GameJamDemo
             GameManager.Instance.UpdateAllHeight();
         }
 
+        public void ChangeExplodeColor(Vector3Int pos)
+        {
+            Block Left = GetBlock(GetNextPosition(pos, MoveDirection.Left));
+            Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
+            Block Forward = GetBlock(GetNextPosition(pos, MoveDirection.Forward));
+            Block BackWard = GetBlock(GetNextPosition(pos, MoveDirection.BackWard));
+            Block Up = GetBlock(GetNextPosition(pos, MoveDirection.Up));
+            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
+            Block Self = GetBlock(pos);
+
+            if (Left != null)
+            {
+                Left.SetReadToBomb2();
+            }
+            if (Right != null)
+            {
+                Right.SetReadToBomb2();
+            }
+            if (Forward != null)
+            {
+                Forward.SetReadToBomb2();
+            }
+            if (BackWard != null)
+            {
+                BackWard.SetReadToBomb2();
+            }
+            if (Up != null)
+            {
+                Up.SetReadToBomb2();
+            }
+            if (Down != null)
+            {
+                Down.SetReadToBomb2();
+            }
+            if (Self != null)
+            {
+                Self.SetReadToBomb1();
+            }
+        }
+
         /// <summary>
         /// 隐藏格子，防止挡住玩家视线。
         /// 半透明层数1

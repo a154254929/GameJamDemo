@@ -40,7 +40,7 @@ namespace GameJamDemo
         public bool ExpireExlopdeTime()
         {
             m_explodeTimer += Time.deltaTime;
-            return m_explodeTimer > 0.5f;
+            return m_explodeTimer > 1.5f;
         }
 
 

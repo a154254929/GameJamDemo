@@ -9,11 +9,13 @@ namespace GameJamDemo
     {
         public Button startButton;
         public GameObject mainUI;
+        public GameObject connecttingObj;
         private AudioManager audioManager = GameManager.Instance.audioManager;
 
         void Start()
         {
             startButton.onClick.AddListener(OnClickStart);
+            SetStartButtonActive(false);
         }
 
         void OnClickStart()
@@ -21,6 +23,12 @@ namespace GameJamDemo
             mainUI.SetActive(false);
             GameManager.Instance.StartGame();
             audioManager.PlayBGM(1);
+        }
+
+        public void SetStartButtonActive(bool active)
+        {
+            startButton.gameObject.SetActive(active);
+            connecttingObj.SetActive(!active);
         }
     }
 }

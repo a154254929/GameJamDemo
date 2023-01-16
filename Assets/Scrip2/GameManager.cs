@@ -31,6 +31,7 @@ namespace GameJamDemo
         public SingletonManager singletonMgr;
         public BlockExplodeMgr blockExplodeMgr;
         public AudioManager audioManager;
+        public MainUI mainUI;
         public GameUI gameUI;
         public Camera mainCamera;
 
@@ -38,6 +39,8 @@ namespace GameJamDemo
         private float LastSendHeartTime = .0f;
         private bool openTwoPlayer = false;
         private float initFOV;
+
+        private int selfId;
 
         public GameManager()
         {
@@ -64,6 +67,7 @@ namespace GameJamDemo
             audioManager.Init();
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
             CreaterPlayer();
+            mainUI = Transform.FindObjectOfType<MainUI>();
             gameUI = Transform.FindObjectOfType<GameUI>();
             mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             initFOV = mainCamera.fieldOfView;
@@ -214,15 +218,26 @@ namespace GameJamDemo
                 var newPos = mainCamera.transform.position + new Vector3(0, -0.2f, 0);
                 DOTween.To(() => mainCamera.transform.position, r => mainCamera.transform.position = r, newPos, 2f).SetEase(Ease.Linear);
             }
+        }
+
         public void OnStartGame(G2CGameBegin gameBegin)
         {
+            selfId = gameBegin.YourId;
             m_start = true;
         }
 
         public void OnFrameOperation(G2CFrameOperation frameOp)
         {
-
-
+            for (int i = 0; i < frameOp.PlayerOpt.Count; ++i)
+            {
+                int id = frameOp.PlayerOpt[i].Id;
+                if (id != selfId)
+                {
+                    int Dir = frameOp.PlayerOpt[i].Dir;
+                    playerOther.SetDirection((MoveDirection)Dir);
+                    break;
+                }    
+            }
         }
 
         public void OnMove()
@@ -235,6 +250,11 @@ namespace GameJamDemo
         {
 
 
+        }
+
+        public void OnConnectSuccess()
+        {
+            mainUI.SetStartButtonActive(true);
         }
     }
 }

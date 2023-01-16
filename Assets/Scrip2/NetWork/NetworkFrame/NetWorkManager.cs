@@ -8,6 +8,7 @@ using System.IO;
 using Protocol;
 using Google.Protobuf;
 using ProtoBuf;
+using GameJamDemo;
 
 namespace NetWorkFrame
 {
@@ -124,6 +125,7 @@ namespace NetWorkFrame
             if (_socket.Connected)
             {
                 MessageDispatcher.GetInstance().DispatchMessageAsync((uint)EModelMessage.SOCKET_CONNECTED, null);
+                GameManager.Instance.OnConnectSuccess();
             }
         }
 

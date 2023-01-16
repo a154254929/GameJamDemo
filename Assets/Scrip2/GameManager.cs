@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Protocol;
+using NetWorkFrame;
 
 namespace GameJamDemo
 {
@@ -26,11 +28,14 @@ namespace GameJamDemo
         public MapManager mapManager;
         public BombManager bombManager;
         public GameConfig gameConfig;
+        public SingletonManager singletonMgr;
         public BlockExplodeMgr blockExplodeMgr;
         public AudioManager audioManager;
         public GameUI gameUI;
         public Camera mainCamera;
 
+        private float HeartSendTime = 3.0f;
+        private float LastSendHeartTime = .0f;
         private bool openTwoPlayer = false;
         private float initFOV;
 
@@ -62,11 +67,13 @@ namespace GameJamDemo
             gameUI = Transform.FindObjectOfType<GameUI>();
             mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             initFOV = mainCamera.fieldOfView;
+            NetworkManager.GetInstance().StartGame();
         }
 
         public void StartGame()
         {
-            m_start = true;
+            NetworkManager.GetInstance().SendPacket(MessageType.JoinGame);
+            //m_start = true;
         }
 
         public void StopGame()
@@ -132,6 +139,15 @@ namespace GameJamDemo
 
         public void Update()
         {
+            if (NetworkManager.GetInstance().IsConncted)
+            {
+                LastSendHeartTime += Time.deltaTime;
+                if (LastSendHeartTime >= HeartSendTime)
+                {
+                    NetworkManager.GetInstance().SendPacket(MessageType.Heart);
+                    LastSendHeartTime -= HeartSendTime;
+                }
+            }
             if (!m_start)
             {
                 return;
@@ -198,6 +214,27 @@ namespace GameJamDemo
                 var newPos = mainCamera.transform.position + new Vector3(0, -0.2f, 0);
                 DOTween.To(() => mainCamera.transform.position, r => mainCamera.transform.position = r, newPos, 2f).SetEase(Ease.Linear);
             }
+        public void OnStartGame(G2CGameBegin gameBegin)
+        {
+            m_start = true;
+        }
+
+        public void OnFrameOperation(G2CFrameOperation frameOp)
+        {
+
+
+        }
+
+        public void OnMove()
+        {
+
+
+        }
+
+        public void OnBomb()
+        {
+
+
         }
     }
 }

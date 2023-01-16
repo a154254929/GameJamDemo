@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+package protocol;
+
+enum MessageType
+{
+	// C->G
+	MessageTypeJoinGame = 1;
+	MessageTypeGameOver = 2;
+	MessageTypeChangeDirection = 3;
+	// G->C
+	MessageTypeGameBegin = 4;
+	MessageTypeFrameOperation = 5;
+	MessageTypeMove = 6;
+	MessageTypeBomb = 7;
+}
+
+message C2GChangeDir
+{
+	required int32 dir = 1;
+}
+
+message G2CGameBegin
+{
+	required int32 your_id = 1;
+}
+
+// 每一帧发一条这个
+message G2CFrameOperation
+{
+	message PlayerOperation
+	{
+		required int32 id = 1;
+		required int32 dir = 2;//方向
+	}
+	repeated PlayerOperation player_opt = 1;
+}

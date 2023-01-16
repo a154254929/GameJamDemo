@@ -16,6 +16,11 @@ Shader "Unlit/Cube"
         [Toggle]_ExplodState2("Explod State2", int) = 0
         _ExplodColor2("Explod Color2", Color) = (1,1,1,1)
         
+        //ธ฿นโ
+        _SpecularColor("Specular Color", Color) = (1.0, 1.0, 1.0, 1.0)
+        _SpecularLimit("Specular Limit", Range(0, 1.0)) = 0.723
+        _Smooth("Smooth", Range(1, 128)) = 64
+        
     }
     SubShader
     {
@@ -57,6 +62,14 @@ Shader "Unlit/Cube"
                 float3 normal_dir : TEXCOORD2;
             };
 
+            float3 filter(float3 color1, float3 color2)
+            {
+                float r = 1 - (1 - color1.r) * (1 - color2.r);
+                float g = 1 - (1 - color1.g) * (1 - color2.g);
+                float b = 1 - (1 - color1.b) * (1 - color2.b);
+                return float3(r, g, b);
+            }
+
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Top;
@@ -69,6 +82,9 @@ Shader "Unlit/Cube"
             fixed4 _ExplodColor1;
             int _ExplodState2;
             fixed4 _ExplodColor2;
+            fixed4 _SpecularColor;
+            float _SpecularLimit;
+            float _Smooth;
 
 
             v2f vert (appdata v)
@@ -84,13 +100,18 @@ Shader "Unlit/Cube"
             fixed4 frag(v2f i) : SV_Target
             {
                 // sample the texture
-                fixed3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 view_dir = normalize(_WorldSpaceCameraPos.xyz - i.pos);
+                float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
+                float3 half_dir = normalize(light_dir + view_dir);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
+                float SpecularStep = step(_SpecularLimit, pow(saturate(dot(half_dir, normal_dir)), _Smooth));
                 fixed4 texColor = tex2D(_MainTex, i.uv);
                 fixed4 col = fixed4(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a) * lerp(_ShadowIntensity, 1, step(_ShadowStepLimit, lambert)), 1.0);
-                //fixed4 col = saturate(floor(i.pos.y) / _Top);
-                return fixed4(lerp(lerp(col, _ExplodColor1, _ExplodState1), _ExplodColor2, _ExplodState2).rgb *_LightColor0.rgb, _Alpha);
+                fixed4 colWithSpec = fixed4(filter(col.rgb, _SpecularColor.rgb), 1.0);
+                col = fixed4(lerp(lerp(col, _ExplodColor1, _ExplodState1), _ExplodColor2, _ExplodState2).rgb * _LightColor0.rgb, _Alpha);;
+                col = fixed4(lerp(col, colWithSpec, SpecularStep).rgb, _Alpha);
+                return col;
             }
             ENDCG
         }

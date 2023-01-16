@@ -1,0 +1,10 @@
+copy protobuf-net copy Network
+1. 使用工具自动生成相应cs文件
+2. 需要在工程添加一个gameObject 绑上SingletonManager.cs
+3. SendPacket.cs 添加发送数据方法 
+4. ReceivePacket.cs 添加处理方法
+
+.StartLiveRoom.cs 和Canvas.prefab 为测试使用 删除就可以
+.IPConfig.cs 存储server IP port
+. Protocol文件夹 存放自动生成的.cs不需要手动修改
+. NetworkFrame文件夹不需要逻辑层修改

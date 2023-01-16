@@ -1,0 +1,27 @@
+package protocol;
+
+option java_package = "protocol.Msg";
+
+
+message addNumber{
+	required int32 number1= 1;
+	required int32 number2= 2;	
+}
+message TestReq{
+	required string string1= 1;
+	required string string2= 2;
+	repeated addNumber numbers=3;
+}
+message TestRsp{
+
+	required string resultString = 1;// strcat s1 s2
+	repeated addNumber aaaa = 2;
+	//required abc aaaa=2;
+	//repeated string resultNumber= 2;
+}
+
+message abc{
+	required string a = 1;
+	required int32 b= 2;
+
+}

@@ -92,7 +92,7 @@ namespace GameJamDemo
             m_bombList.Add(new Bomb(pos, GameManager.Instance.gameConfig.BombPrefab));
         }
 
-        public void ClearAllBomb()
+        public void Release()
         {
             for (int i = m_bombList.Count - 1; i >= 0; i--)
             {

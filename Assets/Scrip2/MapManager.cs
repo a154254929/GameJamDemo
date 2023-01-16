@@ -72,6 +72,12 @@ namespace GameJamDemo
                 case MoveDirection.Right:
                     nextMoveMent.Set(1, 0, 0);
                     break;
+                case MoveDirection.Up:
+                    nextMoveMent.Set(0, 0, 1);
+                    break;
+                case MoveDirection.Down:
+                    nextMoveMent.Set(0, 0, -1);
+                    break;
             }
 
             return curPos + nextMoveMent;
@@ -144,6 +150,8 @@ namespace GameJamDemo
             Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
             Block Forward = GetBlock(GetNextPosition(pos, MoveDirection.Forward));
             Block BackWard = GetBlock(GetNextPosition(pos, MoveDirection.BackWard));
+            Block Up = GetBlock(GetNextPosition(pos, MoveDirection.Up));
+            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
             Block Self = GetBlock(pos);
 
             if (Left != null)
@@ -161,6 +169,15 @@ namespace GameJamDemo
             if (BackWard != null)
             {
                 BackWard.IsActive = false;
+            }
+            if (Up != null)
+            {
+                Up.IsActive = false;
+            }
+            if (Down != null)
+            {
+                //这个要延迟消失
+                Down.SetExploded(true);
             }
             if (Self != null)
             {

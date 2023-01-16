@@ -10,10 +10,39 @@ namespace GameJamDemo
     public class Block
     {
         private MapManager manager = GameManager.Instance.mapManager;
+        private BlockExplodeMgr explodeMgr = GameManager.Instance.blockExplodeMgr;
         private GameObject m_obj;
         private Vector3Int m_position = Vector3Int.zero;
         private MeshRenderer m_meshRender;
         private MaterialPropertyBlock prop = new MaterialPropertyBlock();
+        public float m_explodeTimer = 0;
+
+        /// <summary>
+        /// 被炸掉
+        /// </summary>
+        public void SetExploded(bool delay)
+        {
+            if (delay)
+            {
+                explodeMgr.AddBlock(this);
+                m_explodeTimer = 0;
+            }
+            else
+            {
+                IsActive = false;
+            }
+        }
+
+        /// <summary>
+        /// 是否查出计时爆炸时间
+        /// </summary>
+        /// <returns></returns>
+        public bool ExpireExlopdeTime()
+        {
+            m_explodeTimer += Time.deltaTime;
+            return m_explodeTimer > 0.5f;
+        }
+
 
         public bool IsActive
         {
@@ -59,6 +88,7 @@ namespace GameJamDemo
             if (obj != null)
             {
                 m_obj = GameObject.Instantiate(obj, createPos, Quaternion.identity, parent);
+                //shader参数
                 m_meshRender = m_obj.transform.Find("Block").GetComponent<MeshRenderer>();
                 m_meshRender.GetPropertyBlock(prop);
                 GameManager gameMgr = GameManager.Instance;
@@ -78,6 +108,39 @@ namespace GameJamDemo
         public Vector3 GetObjTransPosition()
         {
             return m_obj.transform.position;
+        }
+    }
+
+    /// <summary>
+    /// 管理一些延迟爆炸的格子
+    /// </summary>
+    public class BlockExplodeMgr
+    {
+        public List<Block> m_blockList = new List<Block>();
+
+        public void AddBlock(Block block)
+        {
+            if (!m_blockList.Contains(block))
+            {
+                m_blockList.Add(block);
+            }
+        }
+
+        public void OnUpdate()
+        {
+            for (int i = m_blockList.Count - 1; i >= 0; i--)
+            {
+                if (m_blockList[i].ExpireExlopdeTime())
+                {
+                    m_blockList[i].SetExploded(false);
+                    m_blockList.RemoveAt(i);
+                }
+            }
+        }
+
+        public void Release()
+        {
+            m_blockList.Clear();
         }
     }
 }

@@ -25,11 +25,13 @@ namespace GameJamDemo
         public MapManager mapManager;
         public BombManager bombManager;
         public GameConfig gameConfig;
+        public BlockExplodeMgr blockExplodeMgr;
 
         public GameManager()
         {
             mapManager = new MapManager();
             bombManager = new BombManager();
+            blockExplodeMgr = new BlockExplodeMgr();
         }
 
         private float m_timer = 0;
@@ -54,7 +56,8 @@ namespace GameJamDemo
         public void StopGame()
         {
             m_start = false;
-            bombManager.ClearAllBomb();
+            bombManager.Release();
+            blockExplodeMgr.Release();
         }
 
         public void CreaterPlayer()
@@ -111,6 +114,7 @@ namespace GameJamDemo
             }
             bombManager.OnUpdate();
             UpdatePlayerControl();
+            blockExplodeMgr.OnUpdate();
 
             m_timer += Time.deltaTime;
             m_bombTiemr += Time.deltaTime;

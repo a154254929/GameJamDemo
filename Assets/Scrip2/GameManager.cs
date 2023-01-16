@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,8 +28,11 @@ namespace GameJamDemo
         public GameConfig gameConfig;
         public BlockExplodeMgr blockExplodeMgr;
         public AudioManager audioManager;
+        public GameUI gameUI;
+        public Camera mainCamera;
 
         private bool openTwoPlayer = false;
+        private float initFOV;
 
         public GameManager()
         {
@@ -55,6 +59,9 @@ namespace GameJamDemo
             audioManager.Init();
             mapManager.CreateMap(gameConfig.MapSize, gameConfig.BlockPrefab);
             CreaterPlayer();
+            gameUI = Transform.FindObjectOfType<GameUI>();
+            mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            initFOV = mainCamera.fieldOfView;
         }
 
         public void StartGame()
@@ -94,17 +101,22 @@ namespace GameJamDemo
             if (selfGameOver && !otherGameOver)
             {
                 //失败
-                Debug.Log("失败");
+                //Debug.Log("失败");
+                gameUI.ShowResult(false);
+                audioManager.PlayCommonSE(audioManager.GetExplodeAudio());
             }
             else if (!selfGameOver && otherGameOver)
             {
                 //胜利
-                Debug.Log("胜利");
+                //Debug.Log("胜利");
+                gameUI.ShowResult(true);
+                audioManager.PlayCommonSE(audioManager.GetExplodeAudio());
             }
             else if (selfGameOver && otherGameOver)
             {
                 //平局
-                Debug.Log("平局");
+                gameUI.ShowResult(true);
+                audioManager.PlayCommonSE(audioManager.GetExplodeAudio());
             }
         }
 
@@ -170,6 +182,22 @@ namespace GameJamDemo
             else if (v < 0)
                 playerSelf.SetDirection(MoveDirection.BackWard);
 
+        }
+
+        public void Zoom(int topLayer, int curLayer)
+        {
+            curLayer = Mathf.Clamp(curLayer, 2, topLayer);
+            int level = topLayer - curLayer;
+            var newFov = initFOV - level * 3;
+            if (mainCamera.fieldOfView != newFov)
+            {
+                //mainCamera.fieldOfView = newFov;
+                //mainCamera.transform.Translate(new Vector3(0, -0.2f, 0));
+
+                DOTween.To(() => mainCamera.fieldOfView, r => mainCamera.fieldOfView = r, newFov, 2f).SetEase(Ease.Linear);
+                var newPos = mainCamera.transform.position + new Vector3(0, -0.2f, 0);
+                DOTween.To(() => mainCamera.transform.position, r => mainCamera.transform.position = r, newPos, 2f).SetEase(Ease.Linear);
+            }
         }
     }
 }

@@ -101,7 +101,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineLimit: 0.73
-    - _OutlineWidth: 0.066
+    - _OutlineWidth: 0.9
     - _Parallax: 0.02
     - _Rotation: 0
     - _S: 0.63

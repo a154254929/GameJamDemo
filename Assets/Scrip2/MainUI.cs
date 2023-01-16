@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameJamDemo
 {
-    public class UI : MonoBehaviour
+    public class MainUI : MonoBehaviour
     {
         public Button startButton;
         public GameObject mainUI;

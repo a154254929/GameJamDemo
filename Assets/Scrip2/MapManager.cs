@@ -28,6 +28,9 @@ namespace GameJamDemo
         public void CreateMap(Vector3Int mapSize, GameObject obj)
         {
             m_mapRoot = new GameObject("Map");
+            m_mapRoot.transform.position = new Vector3(0.83f, 0, 0.786f);
+            m_mapRoot.transform.eulerAngles = new Vector3(-8.93f, -0.91f, 8.96f);
+
             m_mapSize = mapSize;
             m_blocks = new Block[m_mapSize.x, m_mapSize.y, m_mapSize.z];
             for (int layer = 0; layer < m_blocks.GetLength(2); layer++)
@@ -224,6 +227,7 @@ namespace GameJamDemo
                     }
                 }
             }
+            GameManager.Instance.Zoom(topLayerIndex, curLayer);
         }
     }
 }

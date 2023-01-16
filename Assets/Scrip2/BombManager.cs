@@ -14,12 +14,12 @@ namespace GameJamDemo
         private MapManager mapManager = GameManager.Instance.mapManager;
         private GameConfig gameConfig = GameManager.Instance.gameConfig;
 
-        private GameObject m_obj;
+        //private GameObject m_obj;
         private float m_timer = 0;
         private Vector3Int m_position;
         public Bomb(Vector3Int position, GameObject sourceObj)
         {
-            m_obj = GameObject.Instantiate(sourceObj);
+            //m_obj = GameObject.Instantiate(sourceObj);
             SetPos(position);
         }
 
@@ -35,7 +35,7 @@ namespace GameJamDemo
             m_position = position;
             var block = mapManager.GetBlock(m_position);
             var blockPos = block.GetObjTransPosition();
-            m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
+            //m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace GameJamDemo
         public void Release()
         {
             m_timer = 0;
-            GameObject.Destroy(m_obj);
-            m_obj = null;
+            //GameObject.Destroy(m_obj);
+            //m_obj = null;
         }
     }
 

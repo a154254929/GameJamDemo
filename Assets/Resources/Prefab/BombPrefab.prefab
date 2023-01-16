@@ -62,15 +62,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5614770193288368055, guid: dbb575d5f8289ca40915b476848253ed,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5614770193288368055, guid: dbb575d5f8289ca40915b476848253ed,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5614770193288368055, guid: dbb575d5f8289ca40915b476848253ed,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
         type: 3}
       propertyPath: m_Name
       value: BombPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7866164708907031301, guid: dbb575d5f8289ca40915b476848253ed,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 85fa61fb2b912ec478b56f84c6243b30, type: 2}
     - target: {fileID: 8147254728679283060, guid: dbb575d5f8289ca40915b476848253ed,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbb575d5f8289ca40915b476848253ed, type: 3}

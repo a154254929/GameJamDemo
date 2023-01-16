@@ -27,11 +27,11 @@ namespace GameJamDemo
         private GameObject m_obj;
 
         protected bool IsSelf;
-        public BasePlayer(Vector3Int initPos, GameObject obj)
+        public BasePlayer(Vector3Int initPos, MoveDirection initDir, GameObject obj)
         {
             m_position = initPos;
             m_obj = GameObject.Instantiate(obj);
-            m_direction = MoveDirection.Forward;
+            m_direction = initDir;
             SetPos(m_position);
         }
 
@@ -46,9 +46,8 @@ namespace GameJamDemo
         {
             bool gameOver = false;
             Vector3Int result = mapManager.TryMove(m_position, m_direction, out gameOver);
-            //Debug.LogFormat("curPos {0}, dir {1}, result {2}", m_position, m_direction, result);
             SetPos(result);
-
+            //Debug.LogFormat("curPos {0}, dir {1}, result {2}", m_position, m_direction, result);
             return gameOver;
         }
 
@@ -59,6 +58,7 @@ namespace GameJamDemo
         public void SetPos(Vector3Int pos)
         {
             m_position = pos;
+            mapManager.HideUpLayer(pos.z);
             var block = mapManager.GetBlock(pos);
             var blockPos = block.GetObjTransPosition();
             m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
@@ -69,7 +69,9 @@ namespace GameJamDemo
         /// </summary>
         public void UpdateHeight()
         {
-
+            bool haveBlock;
+            var targetPos = mapManager.GetActiveBlockPos(m_position, out haveBlock);
+            SetPos(targetPos);
         }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace GameJamDemo
         public void SetBomb()
         {
             bombManager.AddBomb(m_position);
+            //Debug.LogFormat("释放炸弹{0}", m_position);
         }
 
         public void Release()

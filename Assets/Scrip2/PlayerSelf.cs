@@ -6,7 +6,7 @@ namespace GameJamDemo
 {
     public class PlayerSelf : BasePlayer
     {
-        public PlayerSelf(Vector3Int initPos, GameObject obj) : base(initPos, obj)
+        public PlayerSelf(Vector3Int initPos, MoveDirection initDir, GameObject obj) : base(initPos, initDir, obj)
         {
             IsSelf = true;
         }

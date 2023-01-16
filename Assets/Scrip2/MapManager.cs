@@ -142,7 +142,9 @@ namespace GameJamDemo
         {
             Block Left = GetBlock(GetNextPosition(pos, MoveDirection.Left));
             Block Right = GetBlock(GetNextPosition(pos, MoveDirection.Right));
-            Block Down = GetBlock(GetNextPosition(pos, MoveDirection.Down));
+            Block Forward = GetBlock(GetNextPosition(pos, MoveDirection.Forward));
+            Block BackWard = GetBlock(GetNextPosition(pos, MoveDirection.BackWard));
+            Block Self = GetBlock(pos);
 
             if (Left != null)
             {
@@ -152,9 +154,39 @@ namespace GameJamDemo
             {
                 Right.IsActive = false;
             }
-            if (Down != null)
+            if (Forward != null)
             {
-                Down.IsActive = false;
+                Forward.IsActive = false;
+            }
+            if (BackWard != null)
+            {
+                BackWard.IsActive = false;
+            }
+            if (Self != null)
+            {
+                Self.IsActive = false;
+            }
+            GameManager.Instance.UpdateAllHeight();
+        }
+
+        /// <summary>
+        /// 隐藏自己层数上层以上的格子
+        /// </summary>
+        /// <param name="layer"></param>
+        public void HideUpLayer(int curLayer)
+        {
+            int topLayerIndex = m_blocks.GetLength(2) - 1;
+            int bottomLayerIndex = curLayer + 2;
+
+            for (int layer = topLayerIndex; layer >= bottomLayerIndex; layer--)
+            {
+                for (int indexX = 0; indexX < m_blocks.GetLength(0); indexX++)
+                {
+                    for (int indexY = 0; indexY < m_blocks.GetLength(1); indexY++)
+                    {
+                        m_blocks[indexX, indexY, layer].IsTransparent = true;
+                    }
+                }
             }
         }
     }

@@ -59,8 +59,8 @@ namespace GameJamDemo
 
         public void CreaterPlayer()
         {
-            playerSelf = new PlayerSelf(new Vector3Int(0, 0, gameConfig.MapSize.z - 1), gameConfig.player1Prfab);
-            playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), gameConfig.player2Prfab);
+            playerSelf = new PlayerSelf(new Vector3Int(0, 0, gameConfig.MapSize.z - 1), MoveDirection.Forward, gameConfig.player1Prfab);
+            //playerOther = new PlayerOther(new Vector3Int(gameConfig.MapSize.x - 1, gameConfig.MapSize.y - 1, gameConfig.MapSize.z - 1), MoveDirection.BackWard, gameConfig.player2Prfab);
         }
 
         /// <summary>
@@ -69,7 +69,8 @@ namespace GameJamDemo
         public void Step()
         {
             bool selfGameOver = playerSelf.Move();
-            bool otherGameOver = playerOther.Move();
+            //bool otherGameOver = playerOther.Move();
+            bool otherGameOver = false;
 
             if (selfGameOver || otherGameOver)
             {
@@ -99,7 +100,7 @@ namespace GameJamDemo
         public void SetBomb()
         {
             playerSelf.SetBomb();
-            playerOther.SetBomb();
+            //playerOther.SetBomb();
         }
 
         public void Update()
@@ -116,22 +117,25 @@ namespace GameJamDemo
             if (m_timer >= 1)
             {
                 Step();
-                m_timer = 0;
+                //m_timer = 0;
+                m_timer -= 1;
             }
             if (m_bombTiemr >= 3)
             {
                 SetBomb();
-                m_bombTiemr = 0;
+                //m_bombTiemr = 0;
+                m_bombTiemr -= 3;
             }
         }
 
         /// <summary>
-        /// 炸弹爆炸强制刷新玩家高度位置
+        /// 炸弹爆炸强制刷新玩家和炸弹高度
         /// </summary>
-        public void UpdatePlayerUpdateHeight()
+        public void UpdateAllHeight()
         {
             playerSelf.UpdateHeight();
-            playerOther.UpdateHeight();
+            //playerOther.UpdateHeight();
+            bombManager.UpdateAllBombHeight();
         }
 
         public void UpdatePlayerControl()

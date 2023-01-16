@@ -19,9 +19,20 @@ namespace GameJamDemo
         private Vector3Int m_position;
         public Bomb(Vector3Int position, GameObject sourceObj)
         {
-            m_position = position;
             m_obj = GameObject.Instantiate(sourceObj);
+            SetPos(position);
+        }
 
+        public void UpdateHeight()
+        {
+            bool haveBlock;
+            var targetPos = mapManager.GetActiveBlockPos(m_position, out haveBlock);
+            SetPos(targetPos);
+        }
+
+        public void SetPos(Vector3Int position)
+        {
+            m_position = position;
             var block = mapManager.GetBlock(m_position);
             var blockPos = block.GetObjTransPosition();
             m_obj.transform.position = blockPos + gameConfig.PlayerPosOffset;
@@ -89,6 +100,14 @@ namespace GameJamDemo
                 m_bombList.RemoveAt(i);
             }
             m_bombList.Clear();
+        }
+
+        public void UpdateAllBombHeight()
+        {
+            for (int i = m_bombList.Count - 1; i >= 0; i--)
+            {
+                m_bombList[i].UpdateHeight();
+            }
         }
     }
 }

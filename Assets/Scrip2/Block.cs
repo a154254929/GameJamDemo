@@ -63,12 +63,7 @@ namespace GameJamDemo
                 m_meshRender.GetPropertyBlock(prop);
                 GameManager gameMgr = GameManager.Instance;
                 prop.SetFloat("_Top", gameMgr.gameConfig.StepColors.Length);
-                List<Vector4> vects = new List<Vector4>();
-                for (int i = 0; i < gameMgr.gameConfig.StepColors.Length; ++i)
-                {
-                    vects.Add((Vector4)gameMgr.gameConfig.StepColors[i]);
-                }
-                prop.SetVectorArray("_StepColors", vects);
+                prop.SetVector("_StepColor", (Vector4)gameMgr.gameConfig.StepColors[z]);
                 m_meshRender.SetPropertyBlock(prop);
             }
             m_isActive = true;

@@ -31,9 +31,9 @@ MonoBehaviour:
     type: 3}
   BombPrefab: {fileID: 8217749815404813082, guid: 19b902ce8761f5e4793095704ea71364,
     type: 3}
-  player1Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
+  player1Prfab: {fileID: 414506980694912764, guid: 21e3376ac01ae5044897dd30efd0371a,
     type: 3}
-  player2Prfab: {fileID: 7169894521350602348, guid: dbb575d5f8289ca40915b476848253ed,
+  player2Prfab: {fileID: 414506980694912764, guid: 21e3376ac01ae5044897dd30efd0371a,
     type: 3}
   PlayerJumpTimeInterval: 1
   PlayerReleaseBombTimeInterval: 3

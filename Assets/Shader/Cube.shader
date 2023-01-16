@@ -10,14 +10,23 @@ Shader "Unlit/Cube"
         _OutlineWidth("Outline Width", Range(0.01, 1)) = 0.24
         _OutlineLimit("Outline Limit", Range(0.01, 4)) = 0.3
         _OutlineColor("Outline Color", Color) = (1,1,1,1)
+        _Alpha("Alpha", Range(0, 1.0)) = 1.0
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Blend SrcAlpha OneMinusSrcAlpha
+        Tags { "Queue" = "Ransparent" "IgnoreProjector" = "true" "RenderType" = "Transprant" }
         LOD 100
+
+        /*Pass
+        {
+            ZWrite On
+            ColorMask 0
+        }*/
 
         Pass
         {
+            ZWrite On
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -43,6 +52,7 @@ Shader "Unlit/Cube"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _Alpha;
             int _Top;
             float _H;
             float _S;
@@ -123,7 +133,7 @@ Shader "Unlit/Cube"
                 float3 light_dir = normalize(_WorldSpaceLightPos0.xyz);
                 float3 normal_dir = normalize(i.normal_dir);
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
-                fixed4 col = fixed4(HSVToRGB(half3(_H * saturate(floor(i.pos.y) / _Top), _S, _V)), 1.0) * lerp(0.4, 1, step(0.4, lambert));
+                fixed4 col = fixed4(HSVToRGB(half3(_H * saturate(floor(i.pos.y) / _Top), _S, _V)) * lerp(0.4, 1, step(0.4, lambert)), _Alpha);
                 //fixed4 col = saturate(floor(i.pos.y) / _Top);
                 return col;
             }
@@ -153,6 +163,7 @@ Shader "Unlit/Cube"
             float _OutlineWidth;
             float _OutlineLimit;
             fixed4 _OutlineColor;
+            float _Alpha;
 
             v2f vert(appdata v)
             {
@@ -170,7 +181,7 @@ Shader "Unlit/Cube"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                return _OutlineColor;
+                return fixed4(_OutlineColor.rgb, 1);
             }
             ENDCG
         }

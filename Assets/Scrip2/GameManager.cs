@@ -374,12 +374,6 @@ namespace GameJamDemo
             //自动join游戏
             JoinGame();
         }
-
-        public void CancelFindMatch()
-        {
-            //取消匹配游戏
-            NetworkManager.GetInstance().Release();
-        }
     }
 }
 

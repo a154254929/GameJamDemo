@@ -42,8 +42,8 @@ namespace GameJamDemo
 
         void OnClickConnectBtn()
         {
-            //TODO 取消连接
-
+            //取消连接
+            NetworkManager.GetInstance().Release();
             singleStartButton.gameObject.SetActive(true);
             multiStartButton.gameObject.SetActive(true);
             connecttingObj.gameObject.SetActive(false);

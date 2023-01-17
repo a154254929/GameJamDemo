@@ -14,7 +14,7 @@ namespace NetWorkFrame
 
         public static Char BytesToInt8(byte[] bytes, int startIndex)
         {
-            Array.Reverse(bytes, startIndex, 1);
+            //Array.Reverse(bytes, startIndex, 1);
             return BitConverter.ToChar(bytes, startIndex);
         }
 

@@ -232,8 +232,8 @@ namespace NetWorkFrame
             {
                 if (readedLen >= 2)
                 {
-                    type = (MessageType)MiniConverter.BytesToInt8(_receiveBuffer, HEAD_SIZE * 0);
-                    messageLen = (int)MiniConverter.BytesToInt8(_receiveBuffer,  HEAD_SIZE * 1);
+                    type = (MessageType)_receiveBuffer[HEAD_SIZE * 0];
+                    messageLen = (int)_receiveBuffer[HEAD_SIZE * 1];
                     if (messageLen == 0)
                     {
                         // TODO 此时有一个type的消息过来、没有内容
@@ -248,7 +248,6 @@ namespace NetWorkFrame
                 if (readedLen >= messageLen)
                 {
                     // TODO _receiveBuffer 里前messageLen是协议结构体解析后处理
-
                     IMessage rspPacket = UnPackTool.UnPack(type, 0, messageLen, _receiveBuffer);
                     if (rspPacket != null)
                     {
@@ -263,15 +262,11 @@ namespace NetWorkFrame
                             rsp = rspPacket,
                         };
                     }
+                    messageLen = 0;
+                    type = 0;
+                    readedLen = 0;
                 }
-                messageLen = 0;
-                type = 0;
-                readedLen = 0;
             }
-
-
-
-            Array.Clear(_receiveBuffer, 0, _socket.ReceiveBufferSize);
 
             BeginReceivePacket();
         }
@@ -365,7 +360,7 @@ namespace NetWorkFrame
             try
             {
                 MemoryStream streamForProto = new MemoryStream();
-                Serializer.Serialize<T>(streamForProto, packet);
+                packet.WriteTo(streamForProto);
                 char bodylen = (char)streamForProto.Length;
                 byte[] bufferSizeBytes = MiniConverter.Int8ToBytes(bodylen);
 

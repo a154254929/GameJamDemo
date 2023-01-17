@@ -107,9 +107,9 @@ Shader "Unlit/Cube"
                 float lambert = dot(normal_dir, light_dir) * 0.5 + 0.5;
                 float SpecularStep = step(_SpecularLimit, pow(saturate(dot(half_dir, normal_dir)), _Smooth));
                 fixed4 texColor = tex2D(_MainTex, i.uv);
-                fixed4 col = fixed4(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a) * lerp(_ShadowIntensity, 1, step(_ShadowStepLimit, lambert)), 1.0);
+                fixed3 baseColor = lerp(lerp(lerp(texColor.rgb, _StepColor.rgb, _ColorStrength * texColor.a), _ExplodColor1, _ExplodState1), _ExplodColor2, _ExplodState2).rgb;
+                fixed4 col = fixed4(baseColor * _LightColor0.rgb * lerp(_ShadowIntensity, 1, step(_ShadowStepLimit, lambert)), 1.0);
                 fixed4 colWithSpec = fixed4(filter(col.rgb, _SpecularColor.rgb), 1.0);
-                col = fixed4(lerp(lerp(col, _ExplodColor1, _ExplodState1), _ExplodColor2, _ExplodState2).rgb * _LightColor0.rgb, _Alpha);;
                 col = fixed4(lerp(col, colWithSpec, SpecularStep).rgb, _Alpha);
                 return col;
             }

@@ -49,13 +49,13 @@ namespace GameJamDemo
 
         public void SetDirection(MoveDirection direction)
         {
-            m_direction = direction;
-            if (IsSelf && !GameManager.Instance.SingleMode)
+            if (IsSelf && !GameManager.Instance.SingleMode && m_direction != direction)
             {
                 C2GChangeDir dir = new C2GChangeDir();
                 dir.Dir = (int)m_direction;
                 NetworkManager.GetInstance().SendPacket<C2GChangeDir>(MessageType.ChangeDirection, dir);
             }
+            m_direction = direction;
 
             //更新模型的方向
             switch (direction)

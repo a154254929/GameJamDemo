@@ -13,6 +13,7 @@ namespace GameJamDemo
         public Button closeConnectButton;
 
         public GameObject mainUI;
+        public GameObject cloud;
         public GameObject connecttingObj;
         private AudioManager audioManager = GameManager.Instance.audioManager;
 
@@ -55,11 +56,13 @@ namespace GameJamDemo
         {
             mainUI.SetActive(false);
             audioManager.PlayBGM(1);
+            cloud.SetActive(true);
         }
 
         public void ResetMainUI()
         {
             mainUI.SetActive(true);
+            cloud.SetActive(false);
             audioManager.PlayBGM(0);
             singleStartButton.gameObject.SetActive(true);
             multiStartButton.gameObject.SetActive(true);

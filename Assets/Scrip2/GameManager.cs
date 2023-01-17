@@ -60,8 +60,8 @@ namespace GameJamDemo
         public BasePlayer playerSelf;
         public BasePlayer playerOther;
 
-        private Vector3Int[] startPos = new Vector3Int[4]; 
-        private MoveDirection[] startDir = new MoveDirection[4]; 
+        private Vector3Int[] startPos = new Vector3Int[4];
+        private MoveDirection[] startDir = new MoveDirection[4];
         public void SetConfig(GameConfig config)
         {
             gameConfig = config;
@@ -202,6 +202,7 @@ namespace GameJamDemo
             if (readyToBegin)
             {
                 Debug.LogWarning(selfId);
+                mainUI.HideMainUI();
                 CreaterSelfPlayer(selfId);
                 CreaterOtherPlayer(1 - selfId);
                 m_start = true;
@@ -337,9 +338,6 @@ namespace GameJamDemo
 
         public void OnStartGame(G2CGameBegin gameBegin)
         {
-            mainUI.HideMainUI();
-            selfId = gameBegin.YourId;
-            Debug.LogError(selfId);
             readyToBegin = true;
         }
 
@@ -348,12 +346,12 @@ namespace GameJamDemo
             for (int i = 0; i < frameOp.PlayerOpt.Count; ++i)
             {
                 int id = frameOp.PlayerOpt[i].Id;
-                if (id != selfId)
+                int Dir = frameOp.PlayerOpt[i].Dir;
+                if (id != selfId && Dir != 0)
                 {
-                    int Dir = frameOp.PlayerOpt[i].Dir;
                     playerOther.SetDirection((MoveDirection)Dir);
                     break;
-                }    
+                }
             }
         }
 

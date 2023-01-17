@@ -195,7 +195,7 @@ namespace NetWorkFrame
             }
             catch (Exception ex)
             {
-                Log4U.LogError(ex.Message);
+                Log4U.LogError(ex.StackTrace);
             }
 
         }
@@ -227,7 +227,7 @@ namespace NetWorkFrame
             {
                 Log4U.LogError(ex.Message + "\n " + ex.StackTrace + "\n" + ex.Source);
             }
-            readedLen += bytesRead;
+            readedLen += Math.Max(bytesRead, 0);
             if (type == 0 || messageLen == 0)
             {
                 if (readedLen >= 2)
@@ -361,15 +361,14 @@ namespace NetWorkFrame
             {
                 MemoryStream streamForProto = new MemoryStream();
                 packet.WriteTo(streamForProto);
-                char bodylen = (char)streamForProto.Length;
-                byte[] bufferSizeBytes = MiniConverter.Int8ToBytes(bodylen);
+                byte bodylen = (byte)streamForProto.Length;
 
-                byte[] messageTypeBytes = MiniConverter.IntToBytes((int)messageType);
+                byte messageTypeBytes = (byte)messageType;
 
                 // int有四个字节
-                Array.Copy(messageTypeBytes, 3, _sendBuffer, HEAD_SIZE * 0, HEAD_SIZE);
+                _sendBuffer[0] = messageTypeBytes;
 
-                Array.Copy(bufferSizeBytes, 0, _sendBuffer, HEAD_SIZE * 1, HEAD_SIZE);
+                _sendBuffer[1] = bodylen;
                 Array.Copy(streamForProto.ToArray(), 0, _sendBuffer, HEAD_SIZE * HEAD_NUM, streamForProto.Length);
                 lock (_socket)
                 {
@@ -395,13 +394,12 @@ namespace NetWorkFrame
             try
             {
                 MemoryStream streamForProto = new MemoryStream();
-                char bodylen = (char)0;
-                byte[] bufferSizeBytes = MiniConverter.Int8ToBytes(bodylen);
-                byte[] messageTypeBytes = MiniConverter.IntToBytes((int)messageType);
+                byte bodylen = (byte)0;
+                byte messageTypeBytes = (byte)messageType;
 
                 // int有四个字节
-                Array.Copy(messageTypeBytes, 3, _sendBuffer, HEAD_SIZE * 0, HEAD_SIZE);
-                Array.Copy(bufferSizeBytes, 0, _sendBuffer, HEAD_SIZE * 1, HEAD_SIZE);
+                _sendBuffer[0] = bodylen;
+                _sendBuffer[0] = messageTypeBytes;
                 lock (_socket)
                 {
                     if (_socket != null && _socket.Connected)

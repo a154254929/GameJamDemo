@@ -338,8 +338,6 @@ namespace GameJamDemo
         public void OnStartGame(G2CGameBegin gameBegin)
         {
             mainUI.HideMainUI();
-            selfId = gameBegin.YourId;
-            Debug.LogError(selfId);
             readyToBegin = true;
         }
 

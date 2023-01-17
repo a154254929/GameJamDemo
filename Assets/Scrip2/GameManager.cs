@@ -347,6 +347,7 @@ namespace GameJamDemo
             {
                 int id = frameOp.PlayerOpt[i].Id;
                 int Dir = frameOp.PlayerOpt[i].Dir;
+                //Debug.LogError("Player"+ id + "OtherDir" + Dir);
                 if (id != selfId && Dir != 0)
                 {
                     playerOther.SetDirection((MoveDirection)Dir);
@@ -372,6 +373,12 @@ namespace GameJamDemo
             //mainUI.SetStartButtonActive(true);
             //自动join游戏
             JoinGame();
+        }
+
+        public void CancelFindMatch()
+        {
+            //取消匹配游戏
+            NetworkManager.GetInstance().Release();
         }
     }
 }

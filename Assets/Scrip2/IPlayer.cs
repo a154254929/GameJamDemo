@@ -105,10 +105,13 @@ namespace GameJamDemo
         /// <param name="pos"></param>
         public void SetPos(Vector3Int pos, bool forceMove = false)
         {
-            m_position = pos;
-            if (IsSelf)
-            {
-                mapManager.HideUpLayer(pos.z);
+            if (m_position != pos)
+            {  
+                m_position = pos;
+                if (IsSelf)
+                {
+                    mapManager.HideUpLayer(pos.z);
+                }
             }
             var block = mapManager.GetBlock(pos);
             var blockPos = block.GetObjTransPosition();

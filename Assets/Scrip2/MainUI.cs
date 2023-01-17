@@ -10,6 +10,7 @@ namespace GameJamDemo
     {
         public Button singleStartButton;
         public Button multiStartButton;
+        public Button closeConnectButton;
 
         public GameObject mainUI;
         public GameObject connecttingObj;
@@ -19,6 +20,7 @@ namespace GameJamDemo
         {
             singleStartButton.onClick.AddListener(OnClickSingleStart);
             multiStartButton.onClick.AddListener(OnClickMultiStart);
+            closeConnectButton.onClick.AddListener(OnClickConnectBtn);
         }
 
         void OnClickSingleStart()
@@ -35,6 +37,15 @@ namespace GameJamDemo
             multiStartButton.gameObject.SetActive(false);
             connecttingObj.gameObject.SetActive(true);
             NetworkManager.GetInstance().StartGame();
+        }
+
+        void OnClickConnectBtn()
+        {
+            //TODO 取消连接
+
+            singleStartButton.gameObject.SetActive(true);
+            multiStartButton.gameObject.SetActive(true);
+            connecttingObj.gameObject.SetActive(false);
         }
 
         /// <summary>

@@ -106,7 +106,7 @@ namespace GameJamDemo
         public void SetPos(Vector3Int pos, bool forceMove = false)
         {
             if (m_position != pos)
-            {  
+            {
                 m_position = pos;
                 if (IsSelf)
                 {

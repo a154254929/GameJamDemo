@@ -40,6 +40,8 @@ namespace GameJamDemo
         private float initFOV;
         private Vector3 initCameraPostion;
         private bool readyToBegin = false;
+        private G2CFrameOperation frameOperation;
+        private bool refreshFrameOp = false;
 
         private int selfId;
 
@@ -50,6 +52,7 @@ namespace GameJamDemo
             blockExplodeMgr = new BlockExplodeMgr();
             audioManager = new AudioManager();
             readyToBegin = false;
+            refreshFrameOp = false;
         }
 
         private float m_timer = 0;
@@ -212,6 +215,21 @@ namespace GameJamDemo
             {
                 return;
             }
+            if (refreshFrameOp)
+            {
+                for (int i = 0; i < frameOperation.PlayerOpt.Count; ++i)
+                {
+                    int id = frameOperation.PlayerOpt[i].Id;
+                    int Dir = frameOperation.PlayerOpt[i].Dir;
+                    //Debug.LogError("Player"+ id + "OtherDir" + Dir);
+                    if (id != selfId && Dir != 0)
+                    {
+                        playerOther.SetDirection((MoveDirection)Dir);
+                        break;
+                    }
+                }
+                refreshFrameOp = false;
+            }
 
             KeyBoardInput();
             TouchInput();
@@ -343,17 +361,8 @@ namespace GameJamDemo
 
         public void OnFrameOperation(G2CFrameOperation frameOp)
         {
-            for (int i = 0; i < frameOp.PlayerOpt.Count; ++i)
-            {
-                int id = frameOp.PlayerOpt[i].Id;
-                int Dir = frameOp.PlayerOpt[i].Dir;
-                //Debug.LogError("Player"+ id + "OtherDir" + Dir);
-                if (id != selfId && Dir != 0)
-                {
-                    playerOther.SetDirection((MoveDirection)Dir);
-                    break;
-                }
-            }
+            refreshFrameOp = true;
+            frameOperation = frameOp;
         }
 
         public void OnMove()

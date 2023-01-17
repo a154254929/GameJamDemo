@@ -202,6 +202,7 @@ namespace GameJamDemo
             if (readyToBegin)
             {
                 Debug.LogWarning(selfId);
+                mainUI.HideMainUI();
                 CreaterSelfPlayer(selfId);
                 CreaterOtherPlayer(1 - selfId);
                 m_start = true;
@@ -337,7 +338,6 @@ namespace GameJamDemo
 
         public void OnStartGame(G2CGameBegin gameBegin)
         {
-            mainUI.HideMainUI();
             readyToBegin = true;
         }
 
